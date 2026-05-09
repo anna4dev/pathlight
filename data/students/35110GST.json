@@ -1,0 +1,215 @@
+{
+  "id": "35110GST",
+  "profile": {
+    "full_name": "Jasmine Regina Bailey",
+    "grade": "7",
+    "dob": "09/22/2013",
+    "disability_categories": ["Health Impairment"],
+    "primary_language": "English",
+    "english_learner": false,
+    "assistive_tech_required": true,
+    "placement": "Full Inclusion Program"
+  },
+  "plaafp": [
+    {
+      "domain": "ACADEMICS",
+      "current_levels": "Jasmine attends school regularly and shows up ready to learn. When calm and focused, she contributes thoughtful comments in class. Jasmine has gotten better with multi-digit operations and integer rules and is at a grade 4 level on her most recent iReady math assessment. ELA: Currently, Jasmine is at a third- grade reading level, as measured by iReady in Fall 2025. Her subcategory scores are Vocabulary: Grade 3, Literature Comprehension: Grade 3, and Informational Text Comprehension: Grade 2. Jasmine can decode most grade level words and reads with adequate fluency. However, when she is asked literal and inferential questions about a text verbally or through writing, Jasmine struggles to provide accurate answers. She has low reading and writing stamina and requires frequent reminders to utilize comprehension skills such as tracking the text, annotating, rereading, etc. when working independently. Jasmine benefits immensely from working in small groups or 1 to 1 with teachers. When Jasmine is offered small group instruction in ELA, she chooses to stay in whole group 80% of the time. Jasmine faces significant challenges during whole-group instruction. When faced with grade- level literacy tasks that she finds difficult, she struggles to sustain attention and often disengages by quietly putting her head down or asking to use the restroom multiple times. There is a clear pattern where academic frustration leads to avoidance behaviors. Rather than asking for help, Jasmine tends to shut down, affecting her ability to participate in the general education classroom. While she is successful 1:1, she currently requires support to generalize these skills to group settings.",
+      "strengths": "Jasmine likes to participate in class, is open to feedback especially during 1-on-1 check-ins, full of warmth, and gets along with her peers. Jasmine likes to participate in ELA, loves to help others, have class jobs, and is also motivated by specific positive praise and enjoys being able to talk with her peers.",
+      "disability_impact": "Jasmine's disability affects her attention, task initiation, focus, stamina, and study skills. These effects can lead to avoidance behaviors, withdrawal from instruction, as well as trouble with adaptability and task initiation. Therefore, Jasmine's impairment impacts her in all content areas and can impede progress without appropriate accommodations and supports from staff.",
+      "source_page": 10
+    },
+    {
+      "domain": "BEHAVIORAL/SOCIAL/EMOTIONAL",
+      "current_levels": "Jasmine is new to Riverstone Prep and has adjusted relatively well. She attends counseling weekly and engages with her counselor. She prefers small-group and quiet activities. At times, Jasmine struggles to regulate herself in the classroom and often shuts down. She demonstrates the ability to identify coping strategies she believes will work for her in the counseling room. She shows increasing understanding of personal boundaries and their importance. She is also able to distinguish between her own emotions and how others might feel in various situations. There is a pattern where academic frustration leads to avoidance behaviors. Rather than asking for help, Jasmine tends to disengage and put her head down, which affects her ability to participate in the general education classroom. Because of this withdrawal pattern she has spent a significant amount of time outside of the classroom checking in with adults, leading to inconsistent amount of time in the classroom.",
+      "strengths": "Jasmine is a bright scholar who loves engaging in creative activities. She enjoys drawing, dance, and spending time with her peers and family.",
+      "disability_impact": "Jasmine struggles to regulate herself in class when she encounters frustration, prompting her to withdraw and shut down. Her impairment makes it challenging for her to remain engaged in group instruction.",
+      "source_page": 12
+    },
+    {
+      "domain": "COMMUNICATION",
+      "current_levels": "N/A",
+      "strengths": "N/A",
+      "disability_impact": "N/A",
+      "source_page": 14
+    },
+    {
+      "domain": "ADDITIONAL",
+      "current_levels": "N/A",
+      "strengths": "N/A",
+      "disability_impact": "N/A",
+      "source_page": 15
+    }
+  ],
+  "goals": [
+    {
+      "id": "1",
+      "source_page": 20,
+      "area": "Counseling",
+      "baseline": "Jasmine is new to Riverstone Prep and has acclimated well. She is able to engage and enjoys socializing with her peers in unstructured settings. In sessions, she does well with listening to instructions; however, she struggles at times to use interventions when prompted. She can identify the emotions others might feel in difficult situations in the counseling setting. She can recognize and acknowledge her involvement in counseling; however, she sometimes does not apply these strategies in the classroom, which leads to withdrawal and shutdown. When frustration arises, she has shown the ability to walk away from situations that are difficult for her. Sometimes she shuts down rather than using strategies that work for her.",
+      "annual_target": "Jasmine will improve her self- regulation skills by using a taught calming strategy (deep breathing, movement break, fidget tool, sensory tool, or grounding exercise) to calm her body and re- engage back to tasks 4 out of 5 opportunities, as measured by reports and observation.",
+      "criteria": "in 80% of opportunities",
+      "method": "Observation Work Samples",
+      "schedule": "End of the Quarter",
+      "responsible": "Social Worker",
+      "short_term_objectives": [
+        "Given fading adult support, Jasmine will recognize and describe physical cues of being triggered or frustrated (tense body, faster breathing, restlessness, lowered head) in 4 out of 5 opportunities.",
+        "Jasmine will independently request or initiate a calming strategy (movement break, breathing pattern, sensory tool, grounding exercise) when experiencing dysregulation in 4 out of 5 opportunities.",
+        "When experiencing frustration or being triggered, Jasmine will use a taught self-regulation strategy (such as deep breathing, movement break, or sensory tool) and return to the classroom to engage in the assigned task, reflecting on the effectiveness of her strategy in 4 out of 5 opportunities."
+      ]
+    },
+    {
+      "id": "2",
+      "source_page": 22,
+      "area": "Mathematics",
+      "baseline": "When calm and focused, Jasmine likes to participate in class. Jasmine has gotten better solving questions involving multi-digit operations and integer rules and is working on increasing her math problem solving skill that involves word problems.",
+      "annual_target": "Jasmine will improve problem solving of multi-step word problems and grade level questions that involve multiple operations to simplify.",
+      "criteria": "From an average of 55% to 75%",
+      "method": "Curriculum Based Assessment",
+      "schedule": "End of the Quarter",
+      "responsible": "SE Classroom Teacher",
+      "short_term_objectives": [
+        "Jasmine will increase her skill solving word problems and show understanding with reason from 55% to 75%.",
+        "Jasmine will improve skill when solving equations involving integers and order of operations from 55% to 75%.",
+        "Jasmine will increase her ability to utilize her resources such as reference sheets and class notes provided from 55% to 75%."
+      ]
+    },
+    {
+      "id": "3",
+      "source_page": 24,
+      "area": "ela",
+      "baseline": "Jasmine's current ELA grade is a 1.8. Riverstone Prep uses a standards-based grading system where 3 reflects full mastery of grade-level material and 2 reflects partial mastery. Currently, Jasmine is at a third-grade reading level, as measured by iReady in Fall 2025. Her subcategory scores are Vocabulary: Grade 3, Literature Comprehension: Grade 3, and Informational Text Comprehension: Grade 2. This makes it difficult for her to understand and write about the rigorous texts in ELA. Jasmine demonstrates partial and inconsistent engagement in class tasks and does not consistently put forth the full effort seen in her best moments during writing assignments. This makes it challenging to collect accurate and reliable data on her independent skills in class. When independently engaged and attempting work with accommodations, she continues to experience difficulty accessing and comprehending grade level texts, e.g., often not annotating, struggling to use reading strategies, etc. She often turns in reading homework with comprehension questions that have answers ranging from 0% to 50% accuracy when completed independently. Jasmine is new to Riverstone Prep and still learning our writing system. She is still working to create full paragraphs with claims, evidence introduced with context, and analysis that accurately reflects her reasoning for selecting her evidence. While effort is inconsistent, Jasmine is starting to adapt to our writing system and showing growth in finding the value of using graphic organizers and supports such as checklists. Her use of these supports is helping her find success and be more accurate with her responses. Jasmine requires significant adult support to break down complex vocabulary, sentence structures, and key ideas, as well as to organize her thinking for writing tasks. With 1:1 adult support, Jasmine can participate in writing activities at grade level, but her independent performance remains below grade-level expectations with 50% accuracy.",
+      "annual_target": "Jasmine will increase her ability to comprehend complex texts to independently answer literal and inferential comprehension questions or writing prompts that meets grade level rubrics.",
+      "criteria": "from 50% to 75%",
+      "method": "Work Samples Curriculum Based Assessment Rubrics",
+      "schedule": "End of the Quarter",
+      "responsible": "SE Classroom Teacher",
+      "short_term_objectives": [
+        "Jasmine will be able to accurately annotate a given text for the prompt, labeled annotation focus, supporting detail, etc.",
+        "Jasmine will increase her ability to independently answer literal comprehension questions about a text such as main idea, setting, or plot.",
+        "Jasmine will increase her ability to write a claim that accurately answers each part of the question.",
+        "Jasmine will increase her ability to independently find 3 effective pieces of textual evidence, or however many are required for the assignment, to support the claim and answers.",
+        "Jasmine will increase her ability to write analysis to show how her evidence is relevant to and contributes to her claim."
+      ]
+    }
+  ],
+  "accommodations": [
+    {
+      "id": "acc_01",
+      "source_page": 18,
+      "category": "Presentation",
+      "label": "Repeat directions Reminders to pause, plan, proceed Copy of teacher's notes"
+    },
+    {
+      "id": "acc_02",
+      "source_page": 18,
+      "category": "Timing",
+      "label": "Extra time Frequent breaks 1:1 check ins Scheduled breaks Reminder to remain engaged"
+    },
+    {
+      "id": "acc_03",
+      "source_page": 18,
+      "category": "Response",
+      "label": "Reference sheets, graphic organizers and checklists"
+    },
+    {
+      "id": "acc_04",
+      "source_page": 18,
+      "category": "Environment",
+      "label": "Small group (as needed) Sit in the front of the room"
+    }
+  ],
+  "modifications": [
+    {
+      "dimension": "instruction",
+      "label": "Multimodal, inclusion support, small group pull outs when appropriate"
+    }
+  ],
+  "services": [
+    {
+      "goal_ids": ["2", "3"],
+      "type": "Academic Support",
+      "provider": "Special Education Teacher",
+      "location": "General Education Classroom",
+      "frequency": "Weekly 10 Minutes",
+      "start_date": "2025-12-09",
+      "end_date": "2026-12-08"
+    },
+    {
+      "goal_ids": ["1"],
+      "type": "Counseling",
+      "provider": "Counselor",
+      "location": "Counselor's Office",
+      "frequency": "Monthly 10 Minutes",
+      "start_date": "2025-12-09",
+      "end_date": "2026-12-08"
+    },
+    {
+      "goal_ids": ["2"],
+      "type": "Math",
+      "provider": "Special Education Teacher",
+      "location": "General Education Classroom",
+      "frequency": "Daily 55 Minutes",
+      "start_date": "2025-12-09",
+      "end_date": "2026-12-08"
+    },
+    {
+      "goal_ids": ["3"],
+      "type": "English Language Arts",
+      "provider": "Special Education Teacher",
+      "location": "General Education Classroom",
+      "frequency": "Daily 55 Minutes",
+      "start_date": "2025-12-09",
+      "end_date": "2026-12-08"
+    },
+    {
+      "goal_ids": ["1"],
+      "type": "Counseling",
+      "provider": "Counselor",
+      "location": "Counselor's Office",
+      "frequency": "Weekly 30 Minutes",
+      "start_date": "2025-12-09",
+      "end_date": "2026-12-08"
+    }
+  ],
+  "assessment_accommodations": [
+    {
+      "test": "MCAS 3-8",
+      "content_areas": [
+        "English Language Arts",
+        "History and Social Sciences",
+        "Mathematics",
+        "Science and Technology"
+      ],
+      "accessibility_features": [
+        "DF1 Small Group test administration",
+        "DF3 Frequent brief supervised breaks",
+        "DF4 Separate or alternate test location"
+      ],
+      "presentation_accommodations": [
+        "A9 Use a Department approved graphic organizer, checklist, or supplemental reference sheet (SR)"
+      ]
+    },
+    {
+      "test": "Interim Assessment",
+      "content_areas": [
+        "English Language Arts",
+        "History and Social Sciences",
+        "Mathematics",
+        "Science and Technology"
+      ],
+      "accessibility_features": [
+        "Small-group administration",
+        "Frequent supervised breaks",
+        "Separate testing location"
+      ],
+      "presentation_accommodations": ["Graphic organizer or checklist support"]
+    }
+  ],
+  "key_dates": {
+    "iep_start": "2026-08-20",
+    "iep_end": "2027-08-19",
+    "annual_review_due": "2027-08-01",
+    "reevaluation_due": "2029-08-01",
+    "progress_report_cadence": "Quarterly"
+  }
+}

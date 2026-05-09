@@ -1,0 +1,25 @@
+[project]
+name = "pathlight"
+version = "1.0.0"
+description = "MCP server for generating actionable IEP instructional modifications"
+authors = [
+    { name = "Grace", email = "your-email@example.com" }
+]
+dependencies = [
+    "mcp>=1.0.0",
+    "pydantic>=2.7.0",
+    "groq>=0.4.0",
+    "pdfplumber>=0.11.0",
+    "anthropic>=0.30.0",
+    "dateparser>=1.2.0",
+    "python-dotenv>=1.0.1",
+]
+requires-python = ">=3.11"
+
+[project.scripts]
+# using pathlight start server
+pathlight = "pathlight.server:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

@@ -1,0 +1,185 @@
+{
+  "id": "unit1_lesson1_community_importance",
+  "overview": {
+    "title": "What is 'Community' and Why Is It Important?",
+    "unit": "Unit 1: Community and Belonging",
+    "lesson_position": "1 of 8",
+    "knowledge_focus": "Students develop an understanding of community as a shared identity-forming narrative and explore how communities influence belonging, identity, and worldview.",
+    "skill_focus": "Determine and summarize the central idea of a text and identify details that develop it.",
+    "standards": ["RI.7.2", "RI.6", "RI.1", "RI.4"],
+    "grade": 7
+  },
+  "objectives": [
+    {
+      "id": "obj_1",
+      "statement": "Students will determine the central idea of the text and explain how it is developed through supporting details.",
+      "standard": "RI.7.2",
+      "bloom_level": "L4 Analyze"
+    },
+    {
+      "id": "obj_2",
+      "statement": "Students will explain how communities shape identity and belonging using evidence from the text.",
+      "standard": "RI.1",
+      "bloom_level": "L3 Apply"
+    },
+    {
+      "id": "obj_3",
+      "statement": "Students will summarize the author's definition of community in their own words.",
+      "standard": "RI.2",
+      "bloom_level": "L2 Understand"
+    },
+    {
+      "id": "obj_4",
+      "statement": "Students will interpret vocabulary and word meaning in context.",
+      "standard": "RI.4",
+      "bloom_level": "L2 Understand"
+    }
+  ],
+  "key_term": [
+    {
+      "word": "community",
+      "definition": "A group of people who share an identity-forming narrative.",
+      "visual_support_needed": true
+    },
+    {
+      "word": "solidarity",
+      "pronunciation": "sol-i-dair-i-tee",
+      "definition": "A feeling of unity or togetherness based on a common interest.",
+      "visual_support_needed": true
+    },
+    {
+      "word": "dispersed",
+      "pronunciation": "di-spurst",
+      "definition": "Spread out over an area.",
+      "visual_support_needed": true
+    },
+    {
+      "word": "manifestation",
+      "pronunciation": "man-uh-fuh-stay-shun",
+      "definition": "A sign or example of something becoming visible.",
+      "visual_support_needed": true
+    },
+    {
+      "word": "essence",
+      "pronunciation": "es-uhns",
+      "definition": "The quality that makes something what it is.",
+      "visual_support_needed": true
+    },
+    {
+      "word": "narrative",
+      "pronunciation": "nar-uh-tiv",
+      "definition": "A story or account that shapes understanding or identity.",
+      "visual_support_needed": true
+    },
+    {
+      "word": "normative",
+      "pronunciation": "nor-muh-tiv",
+      "definition": "Related to standards of behavior or ideas about what is right and wrong.",
+      "visual_support_needed": true
+    }
+  ],
+  "phases": [
+    {
+      "phase_id": "intro",
+      "title": "Lesson Introduction",
+      "duration_minutes": 5,
+      "activity": "Teacher guides students through the slide deck introducing the concept of community and the lesson skill focus.",
+      "input_modality": "visual",
+      "output_expectation": "oral",
+      "grouping": "whole-class"
+    },
+    {
+      "phase_id": "during_reading",
+      "title": "Guided Reading and Discussion",
+      "duration_minutes": 15,
+      "activity": "Students read the article and answer During Reading Questions focused on central idea, supporting details, and definition of community.",
+      "input_modality": "text-heavy",
+      "output_expectation": "oral",
+      "grouping": "whole-class"
+    },
+    {
+      "phase_id": "partner_reflection",
+      "title": "Community Reflection",
+      "duration_minutes": 5,
+      "activity": "Students discuss communities they belong to and explain how those communities fit Lowe’s definition.",
+      "input_modality": "auditory",
+      "output_expectation": "oral",
+      "grouping": "partner"
+    },
+    {
+      "phase_id": "independent_practice",
+      "title": "Independent Assessment",
+      "duration_minutes": 20,
+      "activity": "Students complete multiple-choice questions and a short written response explaining the author's definition of community.",
+      "input_modality": "text-heavy",
+      "output_expectation": "writing",
+      "grouping": "independent"
+    },
+    {
+      "phase_id": "student_discussion",
+      "title": "Student-Led Discussion",
+      "duration_minutes": 5,
+      "activity": "Students discuss courteous behavior, conformity, and benefits of belonging to multiple communities.",
+      "input_modality": "auditory",
+      "output_expectation": "oral",
+      "grouping": "partner"
+    }
+  ],
+  "facilitation_options": [
+    "Teacher-led",
+    "Scaffolded",
+    "Independent reading",
+    "Partner discussion",
+    "Student-led small groups"
+  ],
+  "materials": [
+    "Slide Deck",
+    "Teacher Copy",
+    "Student Handout",
+    "During Reading Questions",
+    "Independent Practice Worksheet",
+    "Short Response Prompt",
+    "Discussion Questions"
+  ],
+  "formative_checks": [
+    {
+      "type": "mcq",
+      "question": "Which best describes the author’s main purpose in writing the article?",
+      "options": [
+        "to illustrate how important it is to be part of multiple communities",
+        "to demonstrate the way community has shaped the author's life",
+        "to describe the life of a person who lives in Newcastle",
+        "to give a clear and useful definition of community"
+      ]
+    },
+    {
+      "type": "mcq",
+      "question": "Which piece of evidence best illustrates the central idea of the article?",
+      "options": [
+        "One of the communities that I consider myself to be part of is the community based around the city of Newcastle.",
+        "It is this choice to participate in the making and remaking of these stories about the city that makes me part of the community of Newcastle.",
+        "Community is a group of people who share a story that is so important to them that it defines an aspect of who they are.",
+        "Social change requires that we rewrite our communal narratives."
+      ]
+    },
+    {
+      "type": "mcq",
+      "question": "What is the best meaning of the word 'slighted' as it is used in paragraph 5?",
+      "options": ["bored", "insulted", "motivated", "recognized"]
+    },
+    {
+      "type": "mcq",
+      "question": "How do paragraphs 5-7 help the reader understand the author’s central idea?",
+      "options": [
+        "by explaining why community is neither good nor bad",
+        "by describing life for members of the Newcastle community",
+        "by giving an example of a community that is part of the author’s story",
+        "by illustrating how the Newcastle community has many different members"
+      ]
+    },
+    {
+      "type": "short_answer",
+      "question": "Explain what Lowe means when he says a community is 'a group of people who share an identity-forming narrative.'"
+    }
+  ]
+}
