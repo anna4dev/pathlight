@@ -14,6 +14,9 @@ from .exceptions import LLMResponseValidationError
 
 T = TypeVar("T")
 
+# Claude 3.5 Sonnet (and similar) API output limit for completions.
+_ANTHROPIC_JSON_MAX_OUTPUT_TOKENS = 8192
+
 
 class AnthropicClient:
     def __init__(self) -> None:
@@ -63,38 +66,46 @@ class AnthropicClient:
         system_prompt: str,
         user_prompt: str,
         schema: type[T],
-        max_tokens: int = 2048,
+        max_tokens: int = 8192,
     ) -> T:
         json_system = f"""
-{system_prompt}
+        {system_prompt}
 
-CRITICAL:
-- Return valid JSON only
-- Do not use markdown
-- Do not wrap with ```json
-- No explanation text
-- No comments
-- No trailing text
-""".strip()
+        CRITICAL:
+        - Return valid JSON only
+        - Do not use markdown
+        - Do not wrap with ```json
+        - No explanation text
+        - No comments
+        - No trailing text
+        """.strip()
 
-        raw_text = await self.fetch_text(
-            system_prompt=json_system,
-            user_prompt=user_prompt,
-            max_tokens=max_tokens,
-            temperature=0.1,
-        )
+        doubled = min(max_tokens * 2, _ANTHROPIC_JSON_MAX_OUTPUT_TOKENS)
+        attempt_tokens = (max_tokens, doubled) if doubled > max_tokens else (max_tokens,)
 
-        json_str = extract_json_string(raw_text)
+        last_err: json.JSONDecodeError | None = None
+        raw_text = ""
+        json_str = ""
 
-        try:
-            parsed = json.loads(json_str)
-        except json.JSONDecodeError as e:
-            raise LLMJsonParseError(
-                f"Failed to parse JSON.\n\nERROR:\n{e}\n\n"
-                f"RAW RESPONSE:\n{raw_text}\n\nEXTRACTED JSON:\n{json_str}"
-            ) from e
+        for budget in attempt_tokens:
+            raw_text = await self.fetch_text(
+                system_prompt=json_system,
+                user_prompt=user_prompt,
+                max_tokens=budget,
+                temperature=0.1,
+            )
+            json_str = extract_json_string(raw_text)
+            try:
+                parsed = json.loads(json_str)
+            except json.JSONDecodeError as e:
+                last_err = e
+                continue
+            try:
+                return TypeAdapter(schema).validate_python(parsed)
+            except ValidationError as e:
+                raise LLMResponseValidationError.from_validation(e, parsed) from e
 
-        try:
-            return TypeAdapter(schema).validate_python(parsed)
-        except ValidationError as e:
-            raise LLMResponseValidationError.from_validation(e, parsed) from e
+        raise LLMJsonParseError(
+            f"Failed to parse JSON after retries.\n\nERROR:\n{last_err}\n\n"
+            f"RAW RESPONSE:\n{raw_text}\n\nEXTRACTED JSON:\n{json_str}"
+        ) from last_err

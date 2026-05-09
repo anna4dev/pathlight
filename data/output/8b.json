@@ -8,45 +8,44 @@
         {
           "phase_id": "intro",
           "conflict_type": "cognitive_load",
-          "evidence": "Jasmine struggles to sustain attention and often disengages by quietly putting her head down or asking to use the restroom multiple times when faced with grade-level literacy tasks that she finds difficult.",
+          "evidence": "Jasmine has low reading and writing stamina and requires frequent reminders to utilize comprehension skills such as tracking the text, annotating, rereading, etc. when working independently.",
           "severity": "high",
-          "iep_anchor": "Jasmine's impairment impacts her in all content areas and can impede progress without appropriate accommodations and supports from staff."
+          "iep_anchor": "Jasmine has low reading and writing stamina and requires frequent reminders to utilize comprehension skills such as tracking the text, annotating, rereading, etc. when working independently."
         },
         {
           "phase_id": "intro",
           "conflict_type": "behavioral_regulation_stamina",
-          "evidence": "Jasmine tends to shut down, affecting her ability to participate in the general education classroom, when academic frustration leads to avoidance behaviors.",
+          "evidence": "Jasmine tends to shut down, affecting her ability to participate in the general education classroom.",
           "severity": "high",
-          "iep_anchor": "Jasmine struggles to regulate herself in class when she encounters frustration, prompting her to withdraw and shut down."
+          "iep_anchor": "Rather than asking for help, Jasmine tends to disengage and put her head down, which affects her ability to participate in the general education classroom."
+        },
+        {
+          "phase_id": "intro",
+          "conflict_type": "response_demand",
+          "evidence": "Jasmine faces significant challenges during whole-group instruction.",
+          "severity": "high",
+          "iep_anchor": "Jasmine faces significant challenges during whole-group instruction."
         }
       ],
       "modifications": [
         {
           "phase_id": "intro",
-          "conflict_ref": ["cognitive_load", "behavioral_regulation_stamina"],
-          "modification_strategy": "Multimodal Representation",
-          "implementation_steps": [
-            "Provide a visual graphic organizer to support note-taking and organization of new vocabulary related to community.",
-            "Use a multimedia presentation with images, videos, and audio to engage Jasmine and reduce cognitive load."
+          "conflict_ref": [
+            "cognitive_load",
+            "behavioral_regulation_stamina",
+            "response_demand"
           ],
-          "expected_outcome": "Improved engagement and reduced frustration during the introduction phase.",
-          "iep_anchor": [
-            "Jasmine's impairment impacts her in all content areas and can impede progress without appropriate accommodations and supports from staff.",
-            "Jasmine struggles to regulate herself in class when she encounters frustration, prompting her to withdraw and shut down."
-          ]
-        },
-        {
-          "phase_id": "intro",
-          "conflict_ref": ["cognitive_load", "behavioral_regulation_stamina"],
-          "modification_strategy": "Scaffolded Instruction",
+          "modification_strategy": "scaffolding",
           "implementation_steps": [
-            "Break down the introduction of new vocabulary into smaller, manageable chunks, with opportunities for practice and review.",
-            "Provide a choice board with different activities that cater to Jasmine's interests and learning style, allowing her to work at her own pace and reduce frustration."
+            "Provide a graphic organizer to support note-taking and comprehension during the slide deck introduction.",
+            "Offer frequent, brief check-ins to monitor Jasmine's engagement and provide reminders to utilize comprehension skills.",
+            "Use a think-aloud protocol to model comprehension strategies and provide opportunities for Jasmine to practice."
           ],
-          "expected_outcome": "Increased participation and reduced avoidance behaviors during the introduction phase.",
+          "expected_outcome": "Jasmine will be able to participate more fully in the introduction to the concept of community and the lesson skill focus, with reduced cognitive load and improved behavioral regulation stamina.",
           "iep_anchor": [
-            "Jasmine's impairment impacts her in all content areas and can impede progress without appropriate accommodations and supports from staff.",
-            "Jasmine struggles to regulate herself in class when she encounters frustration, prompting her to withdraw and shut down."
+            "Jasmine has low reading and writing stamina and requires frequent reminders to utilize comprehension skills such as tracking the text, annotating, rereading, etc. when working independently.",
+            "Rather than asking for help, Jasmine tends to disengage and put her head down, which affects her ability to participate in the general education classroom.",
+            "Jasmine faces significant challenges during whole-group instruction."
           ]
         }
       ]
@@ -59,61 +58,42 @@
           "conflict_type": "cognitive_load",
           "evidence": "Jasmine struggles to provide accurate answers to literal and inferential questions about a text verbally or through writing.",
           "severity": "high",
-          "iep_anchor": "Jasmine's impairment impacts her in all content areas and can impede progress without appropriate accommodations and supports from staff."
+          "iep_anchor": "When she is asked literal and inferential questions about a text verbally or through writing, Jasmine struggles to provide accurate answers."
         },
         {
           "phase_id": "during_reading",
           "conflict_type": "response_demand",
           "evidence": "Jasmine requires frequent reminders to utilize comprehension skills such as tracking the text, annotating, rereading, etc. when working independently.",
           "severity": "high",
-          "iep_anchor": "Jasmine's impairment impacts her in all content areas and can impede progress without appropriate accommodations and supports from staff."
+          "iep_anchor": "Jasmine requires frequent reminders to utilize comprehension skills such as tracking the text, annotating, rereading, etc. when working independently."
         },
         {
           "phase_id": "during_reading",
           "conflict_type": "behavioral_regulation_stamina",
-          "evidence": "Jasmine faces significant challenges during whole-group instruction and often disengages by quietly putting her head down or asking to use the restroom multiple times.",
+          "evidence": "Jasmine has low reading and writing stamina and often disengages by quietly putting her head down or asking to use the restroom multiple times.",
           "severity": "high",
-          "iep_anchor": "Jasmine struggles to regulate herself in class when she encounters frustration, prompting her to withdraw and shut down."
+          "iep_anchor": "Jasmine has low reading and writing stamina and often disengages by quietly putting her head down or asking to use the restroom multiple times."
         }
       ],
       "modifications": [
         {
           "phase_id": "during_reading",
-          "conflict_ref": ["cognitive_load", "response_demand"],
-          "modification_strategy": "Multimodal Representation",
-          "implementation_steps": [
-            "Provide graphic organizers to support comprehension and organization of ideas.",
-            "Offer audio versions of the text to supplement reading and reduce cognitive load."
+          "conflict_ref": [
+            "cognitive_load",
+            "response_demand",
+            "behavioral_regulation_stamina"
           ],
-          "expected_outcome": "Improved comprehension and reduced cognitive load, allowing Jasmine to better engage with the text.",
-          "iep_anchor": [
-            "Jasmine's impairment impacts her in all content areas and can impede progress without appropriate accommodations and supports from staff."
-          ]
-        },
-        {
-          "phase_id": "during_reading",
-          "conflict_ref": ["response_demand"],
-          "modification_strategy": "Scaffolding",
+          "modification_strategy": "scaffolding",
           "implementation_steps": [
-            "Provide a checklist of comprehension skills to support Jasmine's independent practice.",
-            "Offer frequent, brief check-ins to review progress and provide feedback."
+            "Provide a graphic organizer to help Jasmine track the text and identify key points.",
+            "Offer sentence stems to support Jasmine in answering During Reading Questions.",
+            "Break the reading and questioning activity into shorter, more manageable chunks to reduce overwhelm and increase stamina."
           ],
-          "expected_outcome": "Increased independence and confidence in utilizing comprehension skills, reducing the need for frequent reminders.",
+          "expected_outcome": "Jasmine will be able to accurately answer During Reading Questions and demonstrate improved comprehension skills with reduced cognitive load and increased stamina.",
           "iep_anchor": [
-            "Jasmine's impairment impacts her in all content areas and can impede progress without appropriate accommodations and supports from staff."
-          ]
-        },
-        {
-          "phase_id": "during_reading",
-          "conflict_ref": ["behavioral_regulation_stamina"],
-          "modification_strategy": "Structured Participation",
-          "implementation_steps": [
-            "Implement a 'brain break' routine to provide regular opportunities for movement and relaxation.",
-            "Offer a 'self-regulation' toolkit with strategies for managing frustration and staying engaged."
-          ],
-          "expected_outcome": "Improved self-regulation and reduced disengagement, allowing Jasmine to stay focused and engaged throughout the lesson.",
-          "iep_anchor": [
-            "Jasmine struggles to regulate herself in class when she encounters frustration, prompting her to withdraw and shut down."
+            "When she is asked literal and inferential questions about a text verbally or through writing, Jasmine struggles to provide accurate answers.",
+            "Jasmine requires frequent reminders to utilize comprehension skills such as tracking the text, annotating, rereading, etc. when working independently.",
+            "Jasmine has low reading and writing stamina and often disengages by quietly putting her head down or asking to use the restroom multiple times."
           ]
         }
       ]
@@ -123,46 +103,45 @@
       "conflicts": [
         {
           "phase_id": "partner_reflection",
-          "conflict_type": "cognitive_load",
+          "conflict_type": "cognitive_load|response_demand",
           "evidence": "Jasmine struggles to sustain attention and often disengages by quietly putting her head down or asking to use the restroom multiple times when faced with grade-level literacy tasks that she finds difficult.",
           "severity": "high",
-          "iep_anchor": "Jasmine's impairment impacts her in all content areas and can impede progress without appropriate accommodations and supports from staff."
+          "iep_anchor": "Jasmine faces significant challenges during whole-group instruction. When faced with grade-level literacy tasks that she finds difficult, she struggles to sustain attention and often disengages by quietly putting her head down or asking to use the restroom multiple times."
         },
         {
           "phase_id": "partner_reflection",
           "conflict_type": "behavioral_regulation_stamina",
-          "evidence": "Jasmine tends to shut down, affecting her ability to participate in the general education classroom, and has spent a significant amount of time outside of the classroom checking in with adults.",
+          "evidence": "Jasmine tends to shut down, affecting her ability to participate in the general education classroom, and has a pattern where academic frustration leads to avoidance behaviors.",
           "severity": "high",
-          "iep_anchor": "Jasmine struggles to regulate herself in class when she encounters frustration, prompting her to withdraw and shut down."
+          "iep_anchor": "Rather than asking for help, Jasmine tends to shut down, affecting her ability to participate in the general education classroom."
         },
         {
           "phase_id": "partner_reflection",
-          "conflict_type": "response_demand",
-          "evidence": "Jasmine requires frequent reminders to utilize comprehension skills such as tracking the text, annotating, rereading, etc. when working independently.",
+          "conflict_type": "participation_structure",
+          "evidence": "Jasmine benefits immensely from working in small groups or 1 to 1 with teachers, and prefers small-group and quiet activities.",
           "severity": "medium",
-          "iep_anchor": "Jasmine has low reading and writing stamina and requires frequent reminders to utilize comprehension skills such as tracking the text, annotating, rereading, etc."
+          "iep_anchor": "Jasmine benefits immensely from working in small groups or 1 to 1 with teachers."
         }
       ],
       "modifications": [
         {
           "phase_id": "partner_reflection",
           "conflict_ref": [
-            "cognitive_load",
+            "cognitive_load|response_demand",
             "behavioral_regulation_stamina",
-            "response_demand"
+            "participation_structure"
           ],
-          "modification_strategy": "Scaffolding and Guided Practice",
+          "modification_strategy": "scaffolded instruction",
           "implementation_steps": [
-            "Divide the discussion into smaller, manageable chunks, allowing Jasmine to focus on one aspect at a time.",
-            "Provide a graphic organizer to help Jasmine structure her thoughts and stay on task.",
-            "Offer frequent, brief check-ins to ensure Jasmine is on track and provide gentle reminders to utilize comprehension skills.",
-            "Gradually release responsibility to Jasmine as she becomes more confident and independent."
+            "Divide students into small groups of 3-4, with Jasmine in a group of 2-3 students who are also struggling with grade-level literacy tasks.",
+            "Assign a specific role to each group member, such as note-taker, discussion leader, or presenter, to reduce cognitive load and increase participation.",
+            "Provide a graphic organizer to help students structure their thoughts and responses, and offer one-on-one support as needed."
           ],
-          "expected_outcome": "Jasmine will be able to sustain attention and participate in the discussion with increased independence, utilizing comprehension skills to support her participation.",
+          "expected_outcome": "Increased participation and engagement from Jasmine and her peers, with a reduction in cognitive load and behavioral regulation challenges.",
           "iep_anchor": [
-            "Jasmine's impairment impacts her in all content areas and can impede progress without appropriate accommodations and supports from staff.",
-            "Jasmine struggles to regulate herself in class when she encounters frustration, prompting her to withdraw and shut down.",
-            "Jasmine has low reading and writing stamina and requires frequent reminders to utilize comprehension skills such as tracking the text, annotating, rereading, etc."
+            "Jasmine faces significant challenges during whole-group instruction. When faced with grade-level literacy tasks that she finds difficult, she struggles to sustain attention and often disengages by quietly putting her head down or asking to use the restroom multiple times.",
+            "Rather than asking for help, Jasmine tends to shut down, affecting her ability to participate in the general education classroom.",
+            "Jasmine benefits immensely from working in small groups or 1 to 1 with teachers."
           ]
         }
       ]
@@ -173,23 +152,23 @@
         {
           "phase_id": "independent_practice",
           "conflict_type": "cognitive_load",
-          "evidence": "Jasmine struggles to provide accurate answers to literal and inferential questions about a text verbally or through writing.",
+          "evidence": "Jasmine has low reading and writing stamina and requires frequent reminders to utilize comprehension skills such as tracking the text, annotating, rereading, etc. when working independently.",
           "severity": "high",
-          "iep_anchor": "Jasmine's impairment impacts her in all content areas and can impede progress without appropriate accommodations and supports from staff."
+          "iep_anchor": "Jasmine has low reading and writing stamina and requires frequent reminders to utilize comprehension skills such as tracking the text, annotating, rereading, etc. when working independently."
         },
         {
           "phase_id": "independent_practice",
           "conflict_type": "response_demand",
-          "evidence": "Jasmine requires frequent reminders to utilize comprehension skills such as tracking the text, annotating, rereading, etc. when working independently.",
+          "evidence": "When Jasmine is asked literal and inferential questions about a text verbally or through writing, Jasmine struggles to provide accurate answers.",
           "severity": "high",
-          "iep_anchor": "Jasmine's impairment impacts her in all content areas and can impede progress without appropriate accommodations and supports from staff."
+          "iep_anchor": "When Jasmine is asked literal and inferential questions about a text verbally or through writing, Jasmine struggles to provide accurate answers."
         },
         {
           "phase_id": "independent_practice",
           "conflict_type": "behavioral_regulation_stamina",
-          "evidence": "Jasmine faces significant challenges during whole-group instruction. When faced with grade-level literacy tasks that she finds difficult, she struggles to sustain attention and often disengages by quietly putting her head down or asking to use the restroom multiple times.",
+          "evidence": "Jasmine tends to shut down, affecting her ability to participate in the general education classroom.",
           "severity": "high",
-          "iep_anchor": "Jasmine struggles to regulate herself in class when she encounters frustration, prompting her to withdraw and shut down."
+          "iep_anchor": "Rather than asking for help, Jasmine tends to shut down, affecting her ability to participate in the general education classroom."
         }
       ],
       "modifications": [
@@ -200,30 +179,17 @@
             "response_demand",
             "behavioral_regulation_stamina"
           ],
-          "modification_strategy": "Scaffolding and Multimodal Representation",
+          "modification_strategy": "scaffolding",
           "implementation_steps": [
             "Provide a graphic organizer to help Jasmine organize her thoughts and structure her written response.",
-            "Offer a choice of response formats, such as multiple-choice questions, short-answer questions, or a graphic organizer, to reduce cognitive load and increase engagement.",
-            "Break down the written response into smaller, manageable tasks, and provide frequent check-ins to monitor progress and offer support."
+            "Break down the multiple-choice questions into smaller, more manageable chunks, and provide a key to help Jasmine identify the correct answers.",
+            "Offer a choice between writing a short response or creating a visual project to demonstrate understanding, to help Jasmine manage her behavioral regulation stamina."
           ],
-          "expected_outcome": "Jasmine will be able to complete the written response with increased accuracy and independence, and will demonstrate improved comprehension of the text.",
+          "expected_outcome": "Jasmine will be able to complete the independent practice activity with reduced cognitive load, improved response demand, and increased behavioral regulation stamina.",
           "iep_anchor": [
-            "Jasmine's impairment impacts her in all content areas and can impede progress without appropriate accommodations and supports from staff.",
-            "Jasmine struggles to regulate herself in class when she encounters frustration, prompting her to withdraw and shut down."
-          ]
-        },
-        {
-          "phase_id": "independent_practice",
-          "conflict_ref": ["cognitive_load", "response_demand"],
-          "modification_strategy": "Guided Practice and Comprehension Scaffolds",
-          "implementation_steps": [
-            "Provide a model or exemplar of a completed written response to help Jasmine understand the task and reduce cognitive load.",
-            "Offer guided practice by providing a partially completed graphic organizer or a set of sentence stems to help Jasmine structure her response.",
-            "Provide frequent check-ins and feedback to monitor progress and offer support."
-          ],
-          "expected_outcome": "Jasmine will be able to complete the written response with increased accuracy and independence, and will demonstrate improved comprehension of the text.",
-          "iep_anchor": [
-            "Jasmine's impairment impacts her in all content areas and can impede progress without appropriate accommodations and supports from staff."
+            "Jasmine has low reading and writing stamina and requires frequent reminders to utilize comprehension skills such as tracking the text, annotating, rereading, etc. when working independently.",
+            "When Jasmine is asked literal and inferential questions about a text verbally or through writing, Jasmine struggles to provide accurate answers.",
+            "Rather than asking for help, Jasmine tends to shut down, affecting her ability to participate in the general education classroom."
           ]
         }
       ]
@@ -234,149 +200,172 @@
         {
           "phase_id": "student_discussion",
           "conflict_type": "cognitive_load",
-          "evidence": "Jasmine struggles to provide accurate answers to literal and inferential questions about a text verbally or through writing, indicating a high cognitive load during whole-group instruction.",
+          "evidence": "Jasmine has low reading and writing stamina and requires frequent reminders to utilize comprehension skills such as tracking the text, annotating, rereading, etc. when working independently.",
           "severity": "high",
-          "iep_anchor": "Jasmine's impairment impacts her in all content areas and can impede progress without appropriate accommodations and supports from staff."
+          "iep_anchor": "Jasmine has low reading and writing stamina and requires frequent reminders to utilize comprehension skills such as tracking the text, annotating, rereading, etc. when working independently."
+        },
+        {
+          "phase_id": "student_discussion",
+          "conflict_type": "behavioral_regulation_stamina",
+          "evidence": "Jasmine tends to shut down, affecting her ability to participate in the general education classroom.",
+          "severity": "high",
+          "iep_anchor": "Rather than asking for help, Jasmine tends to disengage and put her head down, which affects her ability to participate in the general education classroom."
         },
         {
           "phase_id": "student_discussion",
           "conflict_type": "response_demand",
-          "evidence": "Jasmine tends to disengage and put her head down when faced with grade-level literacy tasks that she finds difficult, indicating a high response demand during whole-group instruction.",
+          "evidence": "Jasmine struggles to provide accurate answers to literal and inferential questions about a text verbally or through writing.",
           "severity": "high",
-          "iep_anchor": "Jasmine's impairment makes it challenging for her to remain engaged in group instruction."
-        },
-        {
-          "phase_id": "student_discussion",
-          "conflict_type": "participation_structure",
-          "evidence": "Jasmine prefers small-group and quiet activities, and often chooses to stay in whole group 80% of the time, indicating a conflict with the participation structure of whole-group instruction.",
-          "severity": "medium",
-          "iep_anchor": "Jasmine benefits immensely from working in small groups or 1 to 1 with teachers."
+          "iep_anchor": "Jasmine struggles to provide accurate answers. She has low reading and writing stamina and requires frequent reminders to utilize comprehension skills such as tracking the text, annotating, rereading, etc. when working independently."
         }
       ],
       "modifications": [
         {
           "phase_id": "student_discussion",
-          "conflict_ref": ["cognitive_load", "response_demand"],
-          "modification_strategy": "Scaffolding",
-          "implementation_steps": [
-            "Provide graphic organizers to support note-taking and organization during whole-group instruction.",
-            "Offer sentence stems or frames to support written responses to questions.",
-            "Use think-pair-share or turn-and-talk strategies to reduce response demand and increase participation."
+          "conflict_ref": [
+            "cognitive_load",
+            "behavioral_regulation_stamina",
+            "response_demand"
           ],
-          "expected_outcome": "Jasmine will be able to participate more fully in whole-group instruction and provide accurate answers to questions.",
-          "iep_anchor": [
-            "Jasmine's impairment impacts her in all content areas and can impede progress without appropriate accommodations and supports from staff.",
-            "Jasmine's impairment makes it challenging for her to remain engaged in group instruction."
-          ]
-        },
-        {
-          "phase_id": "student_discussion",
-          "conflict_ref": ["participation_structure"],
-          "modification_strategy": "Structured Participation",
+          "modification_strategy": "scaffolding",
           "implementation_steps": [
-            "Create a 'choice board' with small-group, quiet activities and whole-group instruction options for Jasmine to choose from.",
-            "Offer regular breaks for small-group or quiet activities to help Jasmine stay engaged.",
-            "Use a visual timer to signal transitions between whole-group and small-group instruction."
+            "Provide graphic organizers to support comprehension and organization of thoughts during discussion.",
+            "Use a think-pair-share format to reduce cognitive load and increase participation.",
+            "Offer sentence stems or frames to support Jasmine's verbal responses during discussion."
           ],
-          "expected_outcome": "Jasmine will be able to participate more fully in whole-group instruction and engage with the material.",
+          "expected_outcome": "Jasmine will be able to participate more fully in the discussion, providing accurate verbal responses and demonstrating improved comprehension of the text.",
           "iep_anchor": [
-            "Jasmine benefits immensely from working in small groups or 1 to 1 with teachers."
+            "Jasmine has low reading and writing stamina and requires frequent reminders to utilize comprehension skills such as tracking the text, annotating, rereading, etc. when working independently.",
+            "Rather than asking for help, Jasmine tends to disengage and put her head down, which affects her ability to participate in the general education classroom.",
+            "Jasmine struggles to provide accurate answers. She has low reading and writing stamina and requires frequent reminders to utilize comprehension skills such as tracking the text, annotating, rereading, etc. when working independently."
           ]
         }
       ]
     }
   ],
   "briefing": {
-    "lesson_summary": "This lesson aims to help students understand the concept of community and its importance. Students will analyze the central idea of the text, explain how communities shape identity and belonging, and summarize the author's definition of community in their own words.",
+    "lesson_summary": "Students will explore the concept of community and its importance through a reading and discussion activity, with a focus on comprehension and participation.",
     "priority_concerns": [
-      "Reducing cognitive load and behavioral regulation stamina to ensure Jasmine's engagement and participation throughout the lesson.",
-      "Addressing response demand and participation structure to facilitate Jasmine's active participation in whole-group instruction and small-group activities.",
-      "Providing scaffolding and multimodal representation to support Jasmine's comprehension and organization of ideas during reading and independent practice."
+      "Managing cognitive load and behavioral regulation stamina",
+      "Increasing participation and engagement",
+      "Reducing response demand"
     ],
     "preparation_checklist": [
-      "Prepare a visual graphic organizer to support note-taking and organization of new vocabulary related to community.",
-      "Prepare a multimedia presentation with images, videos, and audio to engage Jasmine and reduce cognitive load.",
-      "Prepare a checklist of comprehension skills to support Jasmine's independent practice.",
-      "Prepare a 'self-regulation' toolkit with strategies for managing frustration and staying engaged."
+      "Graphic organizer for note-taking and comprehension",
+      "During Reading Questions",
+      "Independent Practice Worksheet",
+      "Short Response Prompt",
+      "Discussion Questions"
     ],
     "phase_briefs": [
       {
         "phase_id": "intro",
-        "phase_name": "Introduction",
+        "phase_name": "Introduction to Community",
         "risks": [
-          "Cognitive load and behavioral regulation stamina may impact Jasmine's engagement and participation."
+          "Jasmine may experience high cognitive load and disengage from the lesson.",
+          "Jasmine may struggle to regulate her behavior and participate in the lesson.",
+          "Jasmine may have difficulty responding to questions and prompts."
         ],
         "teacher_actions": [
-          "Provide a visual graphic organizer to support note-taking and organization of new vocabulary related to community.",
-          "Use a multimedia presentation with images, videos, and audio to engage Jasmine and reduce cognitive load."
+          "Provide a graphic organizer to support note-taking and comprehension.",
+          "Offer frequent, brief check-ins to monitor Jasmine's engagement and provide reminders to utilize comprehension skills.",
+          "Use a think-aloud protocol to model comprehension strategies and provide opportunities for Jasmine to practice."
         ],
         "materials_needed": [
-          "Visual graphic organizer",
-          "Multimedia presentation"
+          "Graphic organizer for note-taking and comprehension"
         ],
         "monitoring_focus": [
-          "Jasmine's engagement and participation during the introduction phase."
+          "Jasmine's engagement and participation during the introduction.",
+          "Jasmine's ability to utilize comprehension skills such as tracking the text, annotating, and rereading.",
+          "Jasmine's response to questions and prompts during the introduction."
         ]
       },
       {
         "phase_id": "during_reading",
         "phase_name": "During Reading",
         "risks": [
-          "Cognitive load and response demand may impact Jasmine's comprehension and organization of ideas."
+          "Jasmine may experience high cognitive load and struggle to answer During Reading Questions.",
+          "Jasmine may have difficulty regulating her behavior and participating in the reading activity.",
+          "Jasmine may struggle to respond to questions and prompts during the reading activity."
         ],
         "teacher_actions": [
-          "Provide graphic organizers to support comprehension and organization of ideas.",
-          "Offer audio versions of the text to supplement reading and reduce cognitive load."
+          "Provide a graphic organizer to help Jasmine track the text and identify key points.",
+          "Offer sentence stems to support Jasmine in answering During Reading Questions.",
+          "Break the reading and questioning activity into shorter, more manageable chunks to reduce overwhelm and increase stamina."
         ],
         "materials_needed": [
-          "Graphic organizers",
-          "Audio versions of the text"
+          "Graphic organizer for tracking the text and identifying key points"
         ],
         "monitoring_focus": [
-          "Jasmine's comprehension and organization of ideas during reading."
+          "Jasmine's ability to accurately answer During Reading Questions.",
+          "Jasmine's comprehension skills during the reading activity.",
+          "Jasmine's response to questions and prompts during the reading activity."
         ]
       },
       {
         "phase_id": "partner_reflection",
         "phase_name": "Partner Reflection",
         "risks": [
-          "Cognitive load, behavioral regulation stamina, and response demand may impact Jasmine's participation and engagement in the discussion."
+          "Jasmine may experience high cognitive load and struggle to participate in the partner reflection activity.",
+          "Jasmine may have difficulty regulating her behavior and participating in the partner reflection activity.",
+          "Jasmine may struggle to respond to questions and prompts during the partner reflection activity."
         ],
         "teacher_actions": [
-          "Divide the discussion into smaller, manageable chunks, allowing Jasmine to focus on one aspect at a time.",
-          "Provide a graphic organizer to help Jasmine structure her thoughts and stay on task."
+          "Divide students into small groups of 3-4, with Jasmine in a group of 2-3 students who are also struggling with grade-level literacy tasks.",
+          "Assign a specific role to each group member to reduce cognitive load and increase participation.",
+          "Provide a graphic organizer to help students structure their thoughts and responses, and offer one-on-one support as needed."
         ],
-        "materials_needed": ["Graphic organizer"],
+        "materials_needed": [
+          "Graphic organizer for structuring thoughts and responses"
+        ],
         "monitoring_focus": [
-          "Jasmine's participation and engagement in the discussion."
+          "Jasmine's participation and engagement in the partner reflection activity.",
+          "Jasmine's ability to utilize comprehension skills such as tracking the text, annotating, and rereading.",
+          "Jasmine's response to questions and prompts during the partner reflection activity."
         ]
       },
       {
         "phase_id": "independent_practice",
         "phase_name": "Independent Practice",
         "risks": [
-          "Cognitive load, response demand, and behavioral regulation stamina may impact Jasmine's completion of the written response."
+          "Jasmine may experience high cognitive load and struggle to complete the independent practice activity.",
+          "Jasmine may have difficulty regulating her behavior and participating in the independent practice activity.",
+          "Jasmine may struggle to respond to questions and prompts during the independent practice activity."
         ],
         "teacher_actions": [
           "Provide a graphic organizer to help Jasmine organize her thoughts and structure her written response.",
-          "Offer a choice of response formats to reduce cognitive load and increase engagement."
+          "Break down the multiple-choice questions into smaller, more manageable chunks, and provide a key to help Jasmine identify the correct answers.",
+          "Offer a choice between writing a short response or creating a visual project to demonstrate understanding, to help Jasmine manage her behavioral regulation stamina."
         ],
-        "materials_needed": ["Graphic organizer", "Choice of response formats"],
-        "monitoring_focus": ["Jasmine's completion of the written response."]
+        "materials_needed": [
+          "Graphic organizer for organizing thoughts and structuring written response"
+        ],
+        "monitoring_focus": [
+          "Jasmine's ability to complete the independent practice activity.",
+          "Jasmine's comprehension skills during the independent practice activity.",
+          "Jasmine's response to questions and prompts during the independent practice activity."
+        ]
       },
       {
         "phase_id": "student_discussion",
         "phase_name": "Student Discussion",
         "risks": [
-          "Participation structure may impact Jasmine's engagement and participation in whole-group instruction."
+          "Jasmine may experience high cognitive load and struggle to participate in the student discussion.",
+          "Jasmine may have difficulty regulating her behavior and participating in the student discussion.",
+          "Jasmine may struggle to respond to questions and prompts during the student discussion."
         ],
         "teacher_actions": [
-          "Create a 'choice board' with small-group, quiet activities and whole-group instruction options for Jasmine to choose from.",
-          "Offer regular breaks for small-group or quiet activities to help Jasmine stay engaged."
+          "Provide graphic organizers to support comprehension and organization of thoughts during discussion.",
+          "Use a think-pair-share format to reduce cognitive load and increase participation.",
+          "Offer sentence stems or frames to support Jasmine's verbal responses during discussion."
         ],
-        "materials_needed": ["Choice board"],
+        "materials_needed": [
+          "Graphic organizer for supporting comprehension and organization of thoughts"
+        ],
         "monitoring_focus": [
-          "Jasmine's engagement and participation in whole-group instruction."
+          "Jasmine's participation and engagement in the student discussion.",
+          "Jasmine's ability to utilize comprehension skills such as tracking the text, annotating, and rereading.",
+          "Jasmine's response to questions and prompts during the student discussion."
         ]
       }
     ]

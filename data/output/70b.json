@@ -1,0 +1,324 @@
+{
+    "student_id": "35110GST",
+    "lesson_id": "unit1_lesson1_community_importance",
+    "phases": [
+      {
+        "phase_id": "intro",
+        "conflicts": [
+          {
+            "phase_id": "intro",
+            "conflict_type": "cognitive_load",
+            "evidence": "Teacher guides students through the slide deck introducing the concept of community and the lesson skill focus",
+            "severity": "medium",
+            "iep_anchor": "Jasmine has low reading and writing stamina and requires frequent reminders to utilize comprehension skills such as tracking the text, annotating, rereading, etc. when working independently"
+          },
+          {
+            "phase_id": "intro",
+            "conflict_type": "behavioral_regulation_stamina",
+            "evidence": "Teacher guides students through the slide deck introducing the concept of community and the lesson skill focus",
+            "severity": "high",
+            "iep_anchor": "When faced with grade- level literacy tasks that she finds difficult, she struggles to sustain attention and often disengages by quietly putting her head down or asking to use the restroom multiple times"
+          }
+        ],
+        "modifications": [
+          {
+            "phase_id": "intro",
+            "conflict_ref": [
+              "cognitive_load",
+              "behavioral_regulation_stamina"
+            ],
+            "modification_strategy": "Multimodal Presentation with Breakdown and Checks for Understanding",
+            "implementation_steps": [
+              "Present key concepts in shorter, simpler language",
+              "Use visual aids and images to support text",
+              "Pause after each key point for students to process and ask questions",
+              "Provide a graphic organizer for note-taking and concept mapping",
+              "Offer regular breaks for students to stretch, move, and refocus"
+            ],
+            "expected_outcome": "Improved student engagement and understanding of the concept of community, reduced cognitive overload, and enhanced ability to regulate behavior and sustain attention",
+            "iep_anchor": [
+              "Jasmine has low reading and writing stamina and requires frequent reminders to utilize comprehension skills such as tracking the text, annotating, rereading, etc. when working independently",
+              "When faced with grade- level literacy tasks that she finds difficult, she struggles to sustain attention and often disengages by quietly putting her head down or asking to use the restroom multiple times"
+            ]
+          }
+        ]
+      },
+      {
+        "phase_id": "during_reading",
+        "conflicts": [
+          {
+            "phase_id": "during_reading",
+            "conflict_type": "cognitive_load",
+            "evidence": "Students read the article and answer During Reading Questions focused on central idea, supporting details, and definition of community",
+            "severity": "high",
+            "iep_anchor": "Jasmine struggles to provide accurate answers when she is asked literal and inferential questions about a text verbally or through writing"
+          },
+          {
+            "phase_id": "during_reading",
+            "conflict_type": "behavioral_regulation_stamina",
+            "evidence": "Students read the article and answer During Reading Questions",
+            "severity": "high",
+            "iep_anchor": "Jasmine has low reading and writing stamina and requires frequent reminders to utilize comprehension skills"
+          }
+        ],
+        "modifications": [
+          {
+            "phase_id": "during_reading",
+            "conflict_ref": [
+              "cognitive_load",
+              "behavioral_regulation_stamina"
+            ],
+            "modification_strategy": "Multimodal Representation and Scaffolding",
+            "implementation_steps": [
+              "Provide a graphic organizer to help students visually organize central ideas and supporting details",
+              "Offer a word bank with key vocabulary related to the definition of community",
+              "Allow students to choose between writing or typing their answers to the During Reading Questions",
+              "Provide frequent breaks and check-ins to monitor student progress and offer support"
+            ],
+            "expected_outcome": "Students will demonstrate improved understanding of the central idea, supporting details, and definition of community, and will be able to complete the During Reading Questions with increased accuracy and independence",
+            "iep_anchor": [
+              "Jasmine struggles to provide accurate answers when she is asked literal and inferential questions about a text verbally or through writing",
+              "Jasmine has low reading and writing stamina and requires frequent reminders to utilize comprehension skills"
+            ]
+          }
+        ]
+      },
+      {
+        "phase_id": "partner_reflection",
+        "conflicts": [
+          {
+            "phase_id": "partner_reflection",
+            "conflict_type": "behavioral_regulation_stamina",
+            "evidence": "Students discuss communities they belong to and explain how those communities fit Lowe’s definition, which may lead to academic frustration and shutdown for Jasmine",
+            "severity": "high",
+            "iep_anchor": "When faced with grade- level literacy tasks that she finds difficult, she struggles to sustain attention and often disengages by quietly putting her head down or asking to use the restroom multiple times."
+          },
+          {
+            "phase_id": "partner_reflection",
+            "conflict_type": "cognitive_load",
+            "evidence": "The discussion and explanation required in the Activity may overwhelm Jasmine, given her low reading and writing stamina and struggles with providing accurate answers to literal and inferential questions",
+            "severity": "medium",
+            "iep_anchor": "Jasmine has low reading and writing stamina and requires frequent reminders to utilize comprehension skills such as tracking the text, annotating, rereading, etc. when working independently."
+          }
+        ],
+        "modifications": [
+          {
+            "phase_id": "partner_reflection",
+            "conflict_ref": [
+              "behavioral_regulation_stamina",
+              "cognitive_load"
+            ],
+            "modification_strategy": "Structured Discussion Protocol with Visual Aids",
+            "implementation_steps": [
+              "Provide a graphic organizer with guiding questions related to Lowe's definition and community membership",
+              "Pair students with a peer support partner for discussion and have them take turns sharing their thoughts",
+              "Allow students to use visual aids such as diagrams or concept maps to illustrate their ideas",
+              "Set a timer for 5-minute discussion intervals, followed by a 2-minute break to help students regulate their stamina"
+            ],
+            "expected_outcome": "Students, including Jasmine, will be able to engage in the discussion with increased focus and reduced frustration, and will be able to provide more accurate explanations of how their communities fit Lowe's definition",
+            "iep_anchor": [
+              "When faced with grade- level literacy tasks that she finds difficult, she struggles to sustain attention and often disengages by quietly putting her head down or asking to use the restroom multiple times.",
+              "Jasmine has low reading and writing stamina and requires frequent reminders to utilize comprehension skills such as tracking the text, annotating, rereading, etc. when working independently."
+            ]
+          }
+        ]
+      },
+      {
+        "phase_id": "independent_practice",
+        "conflicts": [
+          {
+            "phase_id": "independent_practice",
+            "conflict_type": "cognitive_load",
+            "evidence": "Jasmine struggles to provide accurate answers when asked literal and inferential questions about a text verbally or through writing",
+            "severity": "high",
+            "iep_anchor": "Jasmine struggles to provide accurate answers when she is asked literal and inferential questions about a text verbally or through writing"
+          },
+          {
+            "phase_id": "independent_practice",
+            "conflict_type": "behavioral_regulation_stamina",
+            "evidence": "Jasmine has low reading and writing stamina and requires frequent reminders to utilize comprehension skills",
+            "severity": "high",
+            "iep_anchor": "Jasmine has low reading and writing stamina and requires frequent reminders to utilize comprehension skills such as tracking the text, annotating, rereading, etc. when working independently"
+          }
+        ],
+        "modifications": [
+          {
+            "phase_id": "independent_practice",
+            "conflict_ref": [
+              "cognitive_load",
+              "behavioral_regulation_stamina"
+            ],
+            "modification_strategy": "Multimodal Representation and Scaffolding",
+            "implementation_steps": [
+              "Provide a graphic organizer to help students structure their written response",
+              "Offer a word bank with key vocabulary related to the author's definition of community",
+              "Allow students to choose between a written or audio-recorded response to reduce cognitive load",
+              "Provide frequent breaks and reminders to utilize comprehension skills such as tracking the text, annotating, and rereading"
+            ],
+            "expected_outcome": "Students will demonstrate improved ability to provide accurate answers and complete the written response with increased independence and reduced frustration",
+            "iep_anchor": [
+              "Jasmine struggles to provide accurate answers when she is asked literal and inferential questions about a text verbally or through writing",
+              "Jasmine has low reading and writing stamina and requires frequent reminders to utilize comprehension skills such as tracking the text, annotating, rereading, etc. when working independently"
+            ]
+          }
+        ]
+      },
+      {
+        "phase_id": "student_discussion",
+        "conflicts": [
+          {
+            "phase_id": "student_discussion",
+            "conflict_type": "behavioral_regulation_stamina",
+            "evidence": "Students discuss courteous behavior, conformity, and benefits of belonging to multiple communities",
+            "severity": "high",
+            "iep_anchor": "Jasmine tends to disengage and put her head down, which affects her ability to participate in the general education classroom"
+          },
+          {
+            "phase_id": "student_discussion",
+            "conflict_type": "participation_structure",
+            "evidence": "Students discuss courteous behavior, conformity, and benefits of belonging to multiple communities",
+            "severity": "medium",
+            "iep_anchor": "Jasmine faces significant challenges during whole-group instruction"
+          }
+        ],
+        "modifications": [
+          {
+            "phase_id": "student_discussion",
+            "conflict_ref": [
+              "behavioral_regulation_stamina",
+              "participation_structure"
+            ],
+            "modification_strategy": "Structured Small-Group Discussions with Visual Supports",
+            "implementation_steps": [
+              "Divide students into smaller groups of 3-4 to facilitate more focused discussions",
+              "Provide a graphic organizer with guiding questions related to courteous behavior, conformity, and community benefits",
+              "Assign each group a specific aspect of the topic to discuss and present to the class",
+              "Allow students to use visual aids like diagrams or charts to support their discussions"
+            ],
+            "expected_outcome": "Improved participation and engagement from students, especially those with difficulties in behavioral regulation and whole-group instruction, by providing a more structured and supportive discussion environment",
+            "iep_anchor": [
+              "Jasmine tends to disengage and put her head down, which affects her ability to participate in the general education classroom",
+              "Jasmine faces significant challenges during whole-group instruction"
+            ]
+          }
+        ]
+      }
+    ],
+    "briefing": {
+      "lesson_summary": "This lesson focuses on understanding the concept of community and its importance, with objectives including determining the central idea of a text, explaining how communities shape identity and belonging, and summarizing the author's definition of community.",
+      "priority_concerns": [
+        "Managing cognitive load and behavioral regulation stamina for students, particularly Jasmine, who has low reading and writing stamina and requires frequent reminders to utilize comprehension skills",
+        "Providing multimodal representations and scaffolding to support students' understanding of complex concepts",
+        "Structuring discussions and activities to facilitate focused engagement and reduce frustration"
+      ],
+      "preparation_checklist": [
+        "Prepare graphic organizers for note-taking, concept mapping, and structuring written responses",
+        "Gather visual aids such as diagrams, charts, and images to support text and discussions",
+        "Set up word banks with key vocabulary related to the definition of community",
+        "Arrange for audio-recording options for students who may need them",
+        "Plan for regular breaks and check-ins to monitor student progress and offer support"
+      ],
+      "phase_briefs": [
+        {
+          "phase_id": "intro",
+          "phase_name": "Introduction",
+          "risks": [
+            "Students may experience cognitive overload due to complex concepts",
+            "Jasmine may struggle to sustain attention and engage with the lesson"
+          ],
+          "teacher_actions": [
+            "Present key concepts in shorter, simpler language",
+            "Use visual aids and images to support text",
+            "Pause after each key point for students to process and ask questions"
+          ],
+          "materials_needed": [
+            "Graphic organizer for note-taking and concept mapping"
+          ],
+          "monitoring_focus": [
+            "Students' ability to track the text and annotate key points",
+            "Jasmine's engagement and attention during the introduction"
+          ]
+        },
+        {
+          "phase_id": "during_reading",
+          "phase_name": "During Reading",
+          "risks": [
+            "Students may struggle to understand the central idea and supporting details",
+            "Jasmine may require frequent reminders to utilize comprehension skills"
+          ],
+          "teacher_actions": [
+            "Provide a graphic organizer to help students visually organize central ideas and supporting details",
+            "Offer a word bank with key vocabulary related to the definition of community",
+            "Allow students to choose between writing or typing their answers to the During Reading Questions"
+          ],
+          "materials_needed": [
+            "Word bank with key vocabulary"
+          ],
+          "monitoring_focus": [
+            "Students' ability to identify and explain the central idea and supporting details",
+            "Jasmine's progress and understanding during the reading activity"
+          ]
+        },
+        {
+          "phase_id": "partner_reflection",
+          "phase_name": "Partner Reflection",
+          "risks": [
+            "Students may struggle to engage in focused discussions and provide accurate explanations",
+            "Jasmine may require support to regulate her stamina and participate in the discussion"
+          ],
+          "teacher_actions": [
+            "Provide a graphic organizer with guiding questions related to Lowe's definition and community membership",
+            "Pair students with a peer support partner for discussion",
+            "Allow students to use visual aids such as diagrams or concept maps to illustrate their ideas"
+          ],
+          "materials_needed": [
+            "Graphic organizer with guiding questions"
+          ],
+          "monitoring_focus": [
+            "Students' ability to provide accurate explanations and engage in focused discussions",
+            "Jasmine's participation and engagement during the partner reflection"
+          ]
+        },
+        {
+          "phase_id": "independent_practice",
+          "phase_name": "Independent Practice",
+          "risks": [
+            "Students may struggle to provide accurate written responses",
+            "Jasmine may require support to structure her written response and utilize comprehension skills"
+          ],
+          "teacher_actions": [
+            "Provide a graphic organizer to help students structure their written response",
+            "Offer a word bank with key vocabulary related to the author's definition of community",
+            "Allow students to choose between a written or audio-recorded response"
+          ],
+          "materials_needed": [
+            "Graphic organizer for structuring written responses"
+          ],
+          "monitoring_focus": [
+            "Students' ability to provide accurate written responses",
+            "Jasmine's progress and understanding during the independent practice"
+          ]
+        },
+        {
+          "phase_id": "student_discussion",
+          "phase_name": "Student Discussion",
+          "risks": [
+            "Students may struggle to participate in whole-group discussions",
+            "Jasmine may require support to engage in the discussion and provide accurate explanations"
+          ],
+          "teacher_actions": [
+            "Divide students into smaller groups of 3-4 to facilitate more focused discussions",
+            "Provide a graphic organizer with guiding questions related to courteous behavior, conformity, and community benefits",
+            "Assign each group a specific aspect of the topic to discuss and present to the class"
+          ],
+          "materials_needed": [
+            "Graphic organizer with guiding questions"
+          ],
+          "monitoring_focus": [
+            "Students' ability to participate in focused discussions and provide accurate explanations",
+            "Jasmine's engagement and participation during the student discussion"
+          ]
+        }
+      ]
+    }
+  }

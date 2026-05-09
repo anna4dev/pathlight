@@ -7,6 +7,7 @@ from typing import TYPE_CHECKING, List
 from src.pathlight.shared.utils import debug_json, debug_log
 from . import prompts
 from .schemas import LearningConflict
+from .validation import sanitize_learning_conflicts
 
 if TYPE_CHECKING:
     from src.pathlight.llm import JsonLLMClient
@@ -35,6 +36,12 @@ class ConflictService:
             system_prompt=system_prompt,
             user_prompt=user_prompt,
             schema=list[LearningConflict],
+        )
+
+        barrier_text = "\n".join(prompts.build_plaafp_context(student))
+        conflicts = sanitize_learning_conflicts(
+            conflicts,
+            barrier_text=barrier_text,
         )
 
         debug_json(

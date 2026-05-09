@@ -49,21 +49,22 @@ Ground modifications in evidence-based practices such as:
 - comprehension scaffolds
 
 ## Reasoning Rules
-1. Merge overlapping instructional supports into unified routines whenever possible, while preserving distinct instructional conflict dimensions.
-2. A single modification may address multiple related conflicts.
-3. Independent practice should remain primarily independent when possible.
-4. Modifications may change support level or response format, but should preserve the core learning goal.
-5. implementation_steps must describe concrete teacher actions.
-6. expected_outcome should describe the likely instructional improvement.
-7. Prefer modifications within the existing activity structure.
+1. Prefer **one** modification that addresses **all** conflicts in [Identified Learning Conflicts] when one coherent instructional routine can cover them.
+2. **At most 2 modifications** for this phase. Use 2 only when conflicts need **clearly non-substitutable** strategies (e.g. a participation structure change vs. a comprehension scaffold that cannot be merged without watering one down).
+3. **No redundant bundles:** Do not output two modifications where one’s `conflict_ref` is a subset of the other’s, or where both target the same primary access issue. Merge into one entry or drop the weaker one.
+4. Each provided `conflict_type` must appear in **exactly one** modification’s `conflict_ref` across the whole array (full coverage: do not omit an input conflict; do not list the same type twice).
+5. Independent practice should remain primarily independent when possible.
+6. Modifications may change support level or response format, but must preserve the core learning goal.
+7. `implementation_steps` must describe concrete teacher actions and align with **this phase’s Activity** (reference its task, format, grouping, or materials when relevant—not generic “lessons” or other phases).
+8. `expected_outcome` should describe the likely instructional improvement for this phase only.
 
 ## Output Rules
 1. Return all fields in English only.
-2. Average expected output is 1-3 modifications.
+2. **Hard cap: at most 2 modifications.** Default to **1** when a single merged plan suffices.
 3. Avoid vague recommendations or generic encouragement.
-4. conflict_ref values must exactly match the provided conflict_type values.
-5. iep_anchor must directly quote related IEP evidence.
-6. Return [] if no meaningful modification exists.
+4. `conflict_ref` values must **exactly** match the `conflict_type` values in [Identified Learning Conflicts]. Do not invent conflict types. Include only conflicts this modification actually addresses.
+5. `iep_anchor` must list **exact** strings copied **only** from the `iep_anchor` fields in [Identified Learning Conflicts]. Do not paraphrase, summarize, or add quotes not present there.
+6. Return [] if there is no meaningful modification or if there are no conflicts to address.
 """.strip()
 
 

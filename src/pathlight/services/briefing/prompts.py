@@ -63,15 +63,21 @@ Return a JSON object only.
 1. teacher_actions must describe concrete classroom actions.
 2. Convert strategies into practical teacher cues or classroom artifacts.
 3. monitoring_focus must describe observable student behaviors or risk indicators.
-4. preparation_checklist should only include materials or logistical preparation needed before class.
-5. materials_needed should describe realistic classroom supports or artifacts.
+4. preparation_checklist should only include materials or logistical preparation needed **before** class starts.
+5. materials_needed should describe realistic classroom supports or artifacts **for that phase only** when they are not already covered lesson-wide.
+
+## De-duplication (lesson-wide)
+- Each distinct prep item or reusable material should appear **once** in the JSON: put shared prep in `preparation_checklist`; avoid listing the same graphic organizer, timer, or routine in every phase.
+- `phase_briefs[].materials_needed` should add only **phase-specific** deltas; if the same support applies to multiple phases, mention it once in `preparation_checklist` and omit repeats in later phases unless wording must differ.
+- Do not copy the same `teacher_actions` or `monitoring_focus` verbatim across multiple phases unless the action is genuinely phase-unique (rephrase or merge if redundant).
 
 ## Output Rules
 1. Return all fields in English only.
-2. Maximum 3 priority concerns. Maximum 3 teacher actions per phase. Maximum 3 monitoring focus items.
-3. Avoid generic summaries or repeated modifications. Prefer high-impact supports only.
-4. Keep guidance concise, operational, and concise teacher-facing language.
-5. Prioritize instructional clarity over completeness. Avoid repeating materials or supports across sections.
+2. **Caps:** Maximum 3 `priority_concerns`. Maximum **5** `preparation_checklist` items. Maximum 3 `teacher_actions`, 3 `risks`, 3 `materials_needed`, and 3 `monitoring_focus` **per phase**.
+3. `lesson_summary`: at most 2 short sentences; name the lesson focus, not a list of every modification.
+4. Avoid generic summaries or repeating low-value items. Prefer high-impact, distinct supports only.
+5. Keep language concise and operational for teachers.
+6. Prioritize instructional clarity over completeness. Do not restate taxonomy labels (e.g. raw conflict_type strings) in `risks`—translate into classroom-ready concerns.
 """.strip()
 
 
