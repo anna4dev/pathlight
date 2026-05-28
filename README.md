@@ -63,6 +63,45 @@ v1 validation is multi-layered (not schema-only):
 
 Validation errors are structured so Claude can self-correct or request teacher input.
 
+## Resource Contract (Phase 2)
+
+Pathlight now exposes segmented, predictable resources for scoped Claude reads.
+
+- Backward-compatible full resources:
+  - `student://{id}/full`
+  - `lesson://{id}/full`
+- Student segmented resources:
+  - `student://{id}/profile`
+  - `student://{id}/plaafp`
+  - `student://{id}/plaafp/{section_id}`
+  - `student://{id}/goals`
+  - `student://{id}/goals/{goal_id}`
+  - `student://{id}/accommodations`
+  - `student://{id}/accommodations/{acc_id}`
+  - `student://{id}/services`
+  - `student://{id}/assessment_accommodations`
+  - `student://{id}/key_dates`
+  - `student://{id}/scopes/instructional_core`
+- Lesson segmented resources:
+  - `lesson://{id}/overview`
+  - `lesson://{id}/phases`
+  - `lesson://{id}/phases/{phase_id}`
+  - `lesson://{id}/questions/{question_id}`
+  - `lesson://{id}/scopes/phase/{phase_id}`
+
+### Claude-grounding fields in `lesson://{id}/overview`
+
+`lesson://{id}/overview` returns a Claude-oriented summary payload including:
+- `grade`
+- `subject`
+- `unit_topic`
+- `duration_minutes`
+- `instructional_objective_summary`
+
+### Instruction-only scope in `student://{id}/scopes/instructional_core`
+
+This scope intentionally includes classroom-relevant fields only (profile teaching context, PLAAFP, goals, accommodations) and excludes unrelated metadata.
+
 ## Human in the Loop
 
 AI output is draft-first.
@@ -169,3 +208,4 @@ Notes:
 ```bash
 npx @modelcontextprotocol/inspector python3 -m src.pathlight.server
 ```
+
