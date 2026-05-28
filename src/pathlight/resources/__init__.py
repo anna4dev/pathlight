@@ -6,6 +6,10 @@ from .lessons import (
     list_lesson_ids,
     load_lesson,
 )
+from .gateway import (
+    list_resource_catalog,
+    read_resource_payload,
+)
 from .students import (
     get_student_path,
     list_student_ids,
@@ -19,7 +23,9 @@ __all__ = [
     "lessons_dir",
     "list_lesson_ids",
     "list_student_ids",
+    "list_resource_catalog",
     "load_lesson",
     "load_student",
+    "read_resource_payload",
     "students_dir",
 ]
