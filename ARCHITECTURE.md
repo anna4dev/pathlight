@@ -15,28 +15,43 @@ The current prototype focuses on:
 
 ---
 
+## Why This Migration
+
+Pathlight is migrating from a server-side multi-step LLM workflow to a Claude-native MCP interaction model.
+
+This is a technical decision focused on system boundaries and reliability:
+
+- **Native model reasoning boundary**: Claude should perform lesson-IEP reasoning directly, while MCP serves context and contracts. This reduces hidden model logic inside backend orchestration and makes behavior easier to inspect in the user-facing loop.
+- **Deterministic output artifacts**: final teacher deliverables should be renderer-controlled artifacts (schema-backed JSON and deterministic checklist rendering), not free-form prose.
+- **Reproducible behavior**: separating context serving, validation, and rendering improves replayability and debugging across runs.
+- **Validation as a first-class layer**: semantic checks (grounding, accommodation coverage, lesson-question references, unsupported output detection) sit between draft generation and final artifact acceptance.
+- **Human-in-the-loop control**: teacher editing, rejection, and partial regeneration become explicit workflow primitives rather than ad hoc prompt behavior.
+
+This migration preserves existing domain modeling work (IEP parsing, lesson structure, phase-aware reasoning) while changing the runtime contract to be MCP-first and deterministic by default.
+
+---
+
 ## System Context
 
 ```mermaid
 flowchart LR
     Teacher[Teacher]
-    Claude[Claude Desktop / API]
-    MCP[Pathlight MCP Server]
-
-    Student[(Student IEP JSON)]
-    Lesson[(Lesson JSON)]
+    Claude[ClaudeDesktop]
+    MCP[PathlightMCPServer]
+    Student[(StudentIEPJSON)]
+    Lesson[(LessonJSON)]
+    Validator[ValidationChecks]
+    Renderer[DeterministicRenderer]
+    Artifact[(TeacherArtifactJSONPlusChecklist)]
 
     Teacher -->|prompt| Claude
-    Claude <-->|MCP| MCP
-
+    Claude <-->|read_resource/call_tool| MCP
     MCP --> Student
     MCP --> Lesson
-
-    MCP --> Conflict[Conflict Reasoning]
-    Conflict --> Modification[Modification Synthesis]
-    Modification --> Briefing[Briefing Generation]
-
-    Briefing --> Claude
+    MCP --> Validator
+    MCP --> Renderer
+    Renderer --> Artifact
+    Validator --> Claude
     Claude --> Teacher
 ```
 
@@ -46,112 +61,95 @@ flowchart LR
 
 ```mermaid
 flowchart TD
-    A[Lesson Phase] --> B[Prompt1<br/>Conflict Detection]
-    B --> C[Prompt2<br/>Modification Generation]
-    C --> D[Prompt3<br/>Briefing Synthesis]
+    A[TeacherRequest] --> B[ClaudeReadsScopedResources]
+    B --> C[ClaudeDraftsStructuredPlan]
+    C --> D[RunValidationSuite]
+    D --> E{Valid?}
+    E -->|No| F[ClaudeRepairsOnlyFailedSections]
+    F --> D
+    E -->|Yes| G[RenderDeterministicArtifacts]
+    G --> H[TeacherReviewEditRejectOrPartialRegenerate]
 ```
 
 ---
 
 ## Reasoning Layers
 
-### Prompt1 — Instructional Conflict Detection
+### Layer 1 — Context Acquisition (MCP Resources)
 
 Goal:
 
-Identify meaningful instructional accessibility barriers.
+Provide predictable, scoped context to Claude with stable IDs.
 
-Reasoning pattern:
+Core resources:
+
+- student profile, PLAAFP, goals, accommodations
+- lesson overview, phases, formative questions, materials
+- scoped slices for phase-level reads
 
 ```text
-Instructional Demand
-vs
-Student Functional Barrier
-→ Instructional Conflict
+student://{id}/...
+lesson://{id}/...
+phase://{lesson_id}/{phase_id}/...
 ```
 
-Current conflict taxonomy:
+Design constraints:
 
-- cognitive_load
-- behavioral_regulation_stamina
-- response_demand
-- participation_structure
-- task_independence
-- modality_access
+- phase-based split
+- predictable IDs
+- scoped reads to avoid context bloat
 
-Output:
+---
 
-```json
-{
-  "phase_id": "independent_practice",
-  "conflict_type": "cognitive_load",
-  "evidence": "...",
-  "severity": "high",
-  "iep_anchor": "..."
-}
+### Layer 2 — Native Claude Reasoning
+
+Goal:
+
+Claude performs lesson-IEP intersection reasoning directly and drafts a structured plan.
+
+Expected draft structure:
+
+```text
+before_class_checklist
+phase_actions
+scaffolded_questions (linked to lesson question IDs)
+accommodation_reminders (linked to source references)
 ```
 
 ---
 
-### Prompt2 — Modification Synthesis
+### Layer 3 — Validation and Repair Loop
 
 Goal:
 
-Generate scalable classroom supports that preserve lesson rigor while improving accessibility.
+Enforce contract compliance before output acceptance.
 
-Grounding:
+Validation categories:
 
-- UDL
-- scaffolded instruction
-- multimodal representation
-- executive functioning supports
-- structured participation
-- comprehension scaffolds
+- schema validity
+- IEP grounding checks
+- accommodation coverage checks
+- lesson-question reference checks
+- unsupported output detection
 
-Constraints:
+Repair behavior:
 
-- preserve lesson integrity
-- avoid over-intervention
-- preserve independence when possible
-- avoid continuous teacher prompting
-
-Output:
-
-```json
-{
-  "phase_id": "independent_practice",
-  "conflict_ref": ["cognitive_load", "response_demand"],
-  "modification_strategy": "...",
-  "implementation_steps": [],
-  "expected_outcome": "...",
-  "iep_anchor": []
-}
-```
+- validation returns structured errors
+- Claude regenerates only failing sections
+- accepted sections remain unchanged
 
 ---
 
-### Prompt3 — Briefing Synthesis
+### Layer 4 — Deterministic Artifact Rendering
 
 Goal:
 
-Compress modifications into concise teacher-facing execution guidance.
+Produce canonical, reproducible teacher outputs independent from prose variability.
 
-Output includes:
+Canonical artifacts:
 
-- priority concerns
-- phase risks
-- teacher actions
-- materials needed
-- monitoring focus
-
-Example:
-
-```text
-Independent Practice
-- Use chunked response scaffolds
-- Provide graphic organizer
-- Monitor stamina during written response
-```
+- structured JSON deliverable
+- deterministic checklist markdown
 
 ---
 
@@ -191,34 +189,39 @@ Lesson --> Phase
 
 ```mermaid
 sequenceDiagram
+    participant T as Teacher
     participant C as Claude
     participant M as MCP
-    participant S as Student JSON
-    participant L as Lesson JSON
+    participant D as DataResources
+    participant V as ValidationSuite
+    participant R as Renderer
 
-    C->>M: generate_pre_class_briefing()
-
-    M->>S: load student
-    M->>L: load lesson
-
-    M->>M: Prompt1 conflict reasoning
-    M->>M: Prompt2 modification synthesis
-    M->>M: Prompt3 briefing synthesis
-
-    M-->>C: structured briefing
+    T->>C: RequestIEPAlignedPlan
+    C->>M: ReadScopedResources
+    M->>D: LoadStudentAndLessonSlices
+    D-->>M: StructuredContext
+    M-->>C: ContextPayload
+    C->>M: ValidateDraftPlan
+    M->>V: RunSchemaAndSemanticChecks
+    V-->>M: ValidationResult
+    M-->>C: ValidationErrorsOrPass
+    C->>M: RenderCanonicalArtifact
+    M->>R: RenderChecklistAndJSON
+    R-->>M: FinalArtifact
+    M-->>C: FinalArtifact
+    C-->>T: DraftForReview
 ```
 
 ---
 
 ## Current Challenges
 
-- instructional conflict over-detection
-- support repetition across phases
-- phase amplification
-- preserving instructional integrity
-- reducing generic reasoning patterns in smaller models
-- support deduplication
-- conflict prioritization
+- balancing scoped context completeness vs token efficiency
+- minimizing unsupported or invented output from draft generation
+- preserving accepted sections during partial regeneration
+- keeping deterministic rendering aligned with evolving schema
+- maintaining validation precision without over-rejecting usable drafts
+- documenting reproducible runs with stable example artifacts
 
 ---
 
@@ -239,27 +242,51 @@ Benefits:
 
 ---
 
-### Phase-Level Reasoning
+### Claude-Native Reasoning Boundary
 
-All reasoning is phase-aware.
+Primary lesson-IEP reasoning is performed by Claude, not hidden backend prompt chains.
 
 Benefits:
 
-- teacher-aligned workflow
-- localized instructional supports
-- reduced generic accommodations
+- clearer runtime boundary and responsibilities
+- easier user-facing inspection and iteration
+- reduced backend orchestration complexity
 
 ---
 
-### Structured Generation
+### Validation-First Acceptance
 
-All LLM outputs are validated through structured schemas.
+Drafts must pass schema + semantic validation before acceptance.
 
 Benefits:
 
-- downstream consistency
-- predictable pipeline behavior
-- easier evaluation
+- stronger grounding and safety guarantees
+- machine-checkable quality gates
+- tighter reproducibility across runs
+
+---
+
+### Deterministic Rendering
+
+Final deliverables are renderer-controlled artifacts.
+
+Benefits:
+
+- stable teacher-facing format
+- easier diffing and regression testing
+- reduced dependence on prose formatting behavior
+
+---
+
+### Human-in-the-Loop by Design
+
+Teacher controls are explicit primitives: edit, reject, partial regenerate.
+
+Benefits:
+
+- practical classroom ownership
+- safer AI-assisted planning workflow
+- clearer separation between AI draft and human acceptance
 
 ---
 
@@ -268,15 +295,24 @@ Benefits:
 ```text
 src/pathlight/
 ├── server.py
-├── models.py
-├── llm/
-├── services/
+├── models.py          # Data primitives (Lesson, Student)
+├── resources/         # Shape A: stateless context providers (IEP/Lesson data)
+├── tools/             # Shape A: validation + renderer entrypoints (tool gate)
+├── prompts/           # Shape A: Claude-native workflow prompts
+├── schemas/           # Shape A: strict output contracts and artifact definitions
+├── legacy/            # v0 tombstone modules (not in default v1 runtime path)
 │   ├── conflicts/
 │   ├── modifications/
-│   └── briefing/
-├── prompts/
-├── resources/
-└── shared/
+│   └── workflow/
+└── shared/            # Serialization and cross-cutting helpers
 ```
+
+### Runtime Ownership (Shape A)
+
+- **Primary runtime path**: `server.py` + `resources/` + `tools/` + `prompts/` + `schemas/`
+- **Migration legacy path**: `legacy/conflicts/`, `legacy/modifications/`, `legacy/workflow/`
+- **Data contracts**: `models.py` for domain primitives and `schemas/` for artifact contracts
+- **Shared utilities**: `shared/` for serialization and cross-cutting helpers
+- **v1 registration rule**: `server.py` defaults to registering only Shape A resources/tools/prompts; legacy modules are bypassed unless explicitly enabled for experiments.
 
 ---
