@@ -78,6 +78,9 @@ Pathlight now exposes segmented, predictable resources for scoped Claude reads.
   - `student://{id}/goals/{goal_id}`
   - `student://{id}/accommodations`
   - `student://{id}/accommodations/{acc_id}`
+  - `student://{id}/services`
+  - `student://{id}/assessment_accommodations`
+  - `student://{id}/key_dates`
   - `student://{id}/scopes/instructional_core`
 - Lesson segmented resources:
   - `lesson://{id}/overview`

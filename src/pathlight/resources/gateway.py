@@ -207,8 +207,12 @@ def read_resource_payload(uri: Any) -> str:
         student = load_student(student_id)
 
         if section == "full":
+            if len(parts) != 2:
+                raise ValueError(f"Invalid student full URI: {uri}")
             return student.model_dump_json()
         if section == "profile":
+            if len(parts) != 2:
+                raise ValueError(f"Invalid student profile URI: {uri}")
             return student.profile.model_dump_json()
         if section == "plaafp":
             if len(parts) == 2:
@@ -243,10 +247,16 @@ def read_resource_payload(uri: Any) -> str:
                 )
             raise ValueError(f"Invalid student accommodations URI: {uri}")
         if section == "services":
+            if len(parts) != 2:
+                raise ValueError(f"Invalid student services URI: {uri}")
             return _json_dump([item.model_dump() for item in student.services])
         if section == "assessment_accommodations":
+            if len(parts) != 2:
+                raise ValueError(f"Invalid student assessment_accommodations URI: {uri}")
             return _json_dump([item.model_dump() for item in student.assessment_accommodations])
         if section == "key_dates":
+            if len(parts) != 2:
+                raise ValueError(f"Invalid student key_dates URI: {uri}")
             return student.key_dates.model_dump_json()
         if section == "scopes":
             if len(parts) == 3 and parts[2] == "instructional_core":
@@ -265,12 +275,20 @@ def read_resource_payload(uri: Any) -> str:
         lesson = load_lesson(lesson_id)
 
         if section == "full":
+            if len(parts) != 2:
+                raise ValueError(f"Invalid lesson full URI: {uri}")
             return lesson.model_dump_json()
         if section == "overview":
+            if len(parts) != 2:
+                raise ValueError(f"Invalid lesson overview URI: {uri}")
             return _json_dump(_lesson_overview_payload(lesson))
         if section == "objectives":
+            if len(parts) != 2:
+                raise ValueError(f"Invalid lesson objectives URI: {uri}")
             return _json_dump([item.model_dump() for item in lesson.objectives])
         if section == "key_terms":
+            if len(parts) != 2:
+                raise ValueError(f"Invalid lesson key_terms URI: {uri}")
             return _json_dump([item.model_dump() for item in lesson.key_term])
         if section == "phases":
             if len(parts) == 2:
@@ -283,8 +301,12 @@ def read_resource_payload(uri: Any) -> str:
                 raise ValueError(f"Unknown phase id '{target_id}' for lesson '{lesson_id}'")
             raise ValueError(f"Invalid lesson phases URI: {uri}")
         if section == "materials":
+            if len(parts) != 2:
+                raise ValueError(f"Invalid lesson materials URI: {uri}")
             return _json_dump(lesson.materials)
         if section == "formative_checks":
+            if len(parts) != 2:
+                raise ValueError(f"Invalid lesson formative_checks URI: {uri}")
             return _json_dump(_lesson_formative_checks_with_ids(lesson))
         if section == "questions":
             if len(parts) != 3:
