@@ -78,6 +78,33 @@ def _lesson_phase_scope_payload(lesson: Lesson, phase_id: str) -> dict[str, Any]
     }
 
 
+def _instructional_phase_scope_payload(
+    student: Student, lesson: Lesson, lesson_id: str, phase_id: str
+) -> dict[str, Any]:
+    """Cross-resource slice: one lesson phase plus formative questions and the
+    student's instructional core (profile/PLAAFP/goals/accommodations).
+
+    Lets Claude request "one phase + linked questions + relevant accommodations"
+    in a single scoped read instead of stitching several resources together.
+
+    ``lesson_id`` echoes the URI addressing id used to request the slice.
+    """
+
+    phase = next((item for item in lesson.phases if item.phase_id == phase_id), None)
+    if not phase:
+        raise ValueError(f"Unknown phase id '{phase_id}' for lesson '{lesson_id}'")
+
+    return {
+        "student_id": student.id,
+        "lesson_id": lesson_id,
+        "phase_id": phase_id,
+        "lesson_overview": _lesson_overview_payload(lesson),
+        "phase": phase.model_dump(),
+        "formative_checks": _lesson_formative_checks_with_ids(lesson),
+        "student_instructional_core": _student_instructional_core_payload(student),
+    }
+
+
 def _lesson_overview_payload(lesson: Lesson) -> dict[str, Any]:
     total_duration_minutes = sum(phase.duration_minutes for phase in lesson.phases)
     objective_summary = " ".join(objective.statement for objective in lesson.objectives)
@@ -184,10 +211,26 @@ def _list_lesson_resources(lesson_id: str) -> list[types.Resource]:
     return resources
 
 
+def _list_instructional_scope_resources(student_id: str) -> list[types.Resource]:
+    resources: list[types.Resource] = []
+    for lesson_id in list_lesson_ids():
+        lesson = load_lesson(lesson_id)
+        for phase in lesson.phases:
+            resources.append(
+                types.Resource(
+                    uri=f"student://{student_id}/scopes/lesson/{lesson_id}/phase/{phase.phase_id}",
+                    name=f"Instructional Scope: {student_id} / {lesson_id} / {phase.phase_id}",
+                    mimeType="application/json",
+                )
+            )
+    return resources
+
+
 def list_resource_catalog() -> list[types.Resource]:
     resources: list[types.Resource] = []
     for student_id in list_student_ids():
         resources.extend(_list_student_resources(student_id))
+        resources.extend(_list_instructional_scope_resources(student_id))
     for lesson_id in list_lesson_ids():
         resources.extend(_list_lesson_resources(lesson_id))
     return resources
@@ -261,6 +304,11 @@ def read_resource_payload(uri: Any) -> str:
         if section == "scopes":
             if len(parts) == 3 and parts[2] == "instructional_core":
                 return _json_dump(_student_instructional_core_payload(student))
+            if len(parts) == 6 and parts[2] == "lesson" and parts[4] == "phase":
+                lesson = load_lesson(parts[3])
+                return _json_dump(
+                    _instructional_phase_scope_payload(student, lesson, parts[3], parts[5])
+                )
             raise ValueError(f"Unknown student scope in URI: {uri}")
         raise ValueError(f"Unknown student section '{section}' in URI: {uri}")
 
