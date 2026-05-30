@@ -50,6 +50,30 @@ class GatewayUriParserTests(unittest.TestCase):
         self.assertIn(f"student://{self.STUDENT_ID}/scopes/instructional_core", uris)
         self.assertIn(f"lesson://{self.LESSON_ID}/questions/q1", uris)
 
+    def test_instructional_phase_scope_bundles_phase_questions_and_accommodations(self) -> None:
+        uri = f"student://{self.STUDENT_ID}/scopes/lesson/{self.LESSON_ID}/phase/intro"
+        data = json.loads(read_resource_payload(uri))
+
+        self.assertEqual(data["student_id"], self.STUDENT_ID)
+        self.assertEqual(data["lesson_id"], self.LESSON_ID)
+        self.assertEqual(data["phase_id"], "intro")
+        self.assertEqual(data["phase"]["phase_id"], "intro")
+
+        self.assertIn("accommodations", data["student_instructional_core"])
+        self.assertEqual(data["formative_checks"][0]["question_id"], "q1")
+
+    def test_instructional_phase_scope_rejects_unknown_phase(self) -> None:
+        uri = f"student://{self.STUDENT_ID}/scopes/lesson/{self.LESSON_ID}/phase/nope"
+        with self.assertRaises(ValueError):
+            read_resource_payload(uri)
+
+    def test_resource_catalog_contains_instructional_phase_scope(self) -> None:
+        uris = {str(resource.uri) for resource in list_resource_catalog()}
+        self.assertIn(
+            f"student://{self.STUDENT_ID}/scopes/lesson/{self.LESSON_ID}/phase/intro",
+            uris,
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

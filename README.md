@@ -88,6 +88,18 @@ Pathlight now exposes segmented, predictable resources for scoped Claude reads.
   - `lesson://{id}/phases/{phase_id}`
   - `lesson://{id}/questions/{question_id}`
   - `lesson://{id}/scopes/phase/{phase_id}`
+- Cross-resource scoped read (one read, no context bloat):
+  - `student://{id}/scopes/lesson/{lesson_id}/phase/{phase_id}`
+
+### Scoped read in `student://{id}/scopes/lesson/{lesson_id}/phase/{phase_id}`
+
+This is the primary Phase 2 scoped-read pattern: it lets Claude request
+"one phase + linked questions + relevant accommodations" in a single read
+instead of stitching several resources together. The slice returns:
+- `lesson_overview` (Claude-grounding summary)
+- `phase` (the one requested lesson phase)
+- `formative_checks` (lesson questions with stable `question_id`s)
+- `student_instructional_core` (profile teaching context, PLAAFP, goals, accommodations)
 
 ### Claude-grounding fields in `lesson://{id}/overview`
 
