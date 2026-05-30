@@ -169,9 +169,7 @@ def _list_student_resources(student_id: str) -> list[types.Resource]:
     return resources
 
 
-def _list_lesson_resources(lesson_id: str) -> list[types.Resource]:
-    lesson = load_lesson(lesson_id)
-
+def _list_lesson_resources(lesson_id: str, lesson: Lesson) -> list[types.Resource]:
     resources: list[types.Resource] = [
         types.Resource(uri=f"lesson://{lesson_id}/full", name=f"Lesson Full Plan: {lesson_id}", mimeType="application/json"),
         types.Resource(uri=f"lesson://{lesson_id}/overview", name=f"Lesson Overview: {lesson_id}", mimeType="application/json"),
@@ -211,10 +209,11 @@ def _list_lesson_resources(lesson_id: str) -> list[types.Resource]:
     return resources
 
 
-def _list_instructional_scope_resources(student_id: str) -> list[types.Resource]:
+def _list_instructional_scope_resources(
+    student_id: str, lessons: list[tuple[str, Lesson]]
+) -> list[types.Resource]:
     resources: list[types.Resource] = []
-    for lesson_id in list_lesson_ids():
-        lesson = load_lesson(lesson_id)
+    for lesson_id, lesson in lessons:
         for phase in lesson.phases:
             resources.append(
                 types.Resource(
@@ -227,12 +226,16 @@ def _list_instructional_scope_resources(student_id: str) -> list[types.Resource]
 
 
 def list_resource_catalog() -> list[types.Resource]:
+    # Load each lesson once and reuse it across students and the lesson catalog
+    # to avoid reloading every lesson per student during enumeration.
+    lessons = [(lesson_id, load_lesson(lesson_id)) for lesson_id in list_lesson_ids()]
+
     resources: list[types.Resource] = []
     for student_id in list_student_ids():
         resources.extend(_list_student_resources(student_id))
-        resources.extend(_list_instructional_scope_resources(student_id))
-    for lesson_id in list_lesson_ids():
-        resources.extend(_list_lesson_resources(lesson_id))
+        resources.extend(_list_instructional_scope_resources(student_id, lessons))
+    for lesson_id, lesson in lessons:
+        resources.extend(_list_lesson_resources(lesson_id, lesson))
     return resources
 
 
