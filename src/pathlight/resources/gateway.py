@@ -63,10 +63,16 @@ def _student_instructional_core_payload(student: Student) -> dict[str, Any]:
     }
 
 
-def _lesson_phase_scope_payload(lesson: Lesson, phase_id: str) -> dict[str, Any]:
+def _find_phase_or_raise(lesson: Lesson, phase_id: str, addressing_id: str):
+    """Resolve a phase by id, raising with the URI addressing id on miss."""
     phase = next((item for item in lesson.phases if item.phase_id == phase_id), None)
     if not phase:
-        raise ValueError(f"Unknown phase id '{phase_id}' for lesson '{lesson.id}'")
+        raise ValueError(f"Unknown phase id '{phase_id}' for lesson '{addressing_id}'")
+    return phase
+
+
+def _lesson_phase_scope_payload(lesson: Lesson, phase_id: str) -> dict[str, Any]:
+    phase = _find_phase_or_raise(lesson, phase_id, lesson.id)
 
     return {
         "lesson_id": lesson.id,
@@ -90,9 +96,7 @@ def _instructional_phase_scope_payload(
     ``lesson_id`` echoes the URI addressing id used to request the slice.
     """
 
-    phase = next((item for item in lesson.phases if item.phase_id == phase_id), None)
-    if not phase:
-        raise ValueError(f"Unknown phase id '{phase_id}' for lesson '{lesson_id}'")
+    phase = _find_phase_or_raise(lesson, phase_id, lesson_id)
 
     return {
         "student_id": student.id,
