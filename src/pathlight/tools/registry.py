@@ -1,7 +1,14 @@
-"""Tool handlers and registration (primitive + workflow)."""
+"""Tool handlers and registration.
+
+Shape A keeps Claude as the reasoning engine; the server-side LLM workflow
+tools below (conflict / modification / briefing / instructional-plan) are
+legacy experiments. They are NOT registered by default and are gated behind
+the ``PATHLIGHT_ENABLE_LEGACY_TOOLS`` environment flag.
+"""
 
 from __future__ import annotations
 
+import os
 from collections.abc import Awaitable, Callable
 from dataclasses import dataclass
 from typing import Any
@@ -75,37 +82,59 @@ async def _handle_generate_instructional_plan(
     return to_text_content(result)
 
 
-_TOOL_HANDLERS: dict[str, ToolHandler] = {
+# All current handlers belong to the legacy server-side LLM workflow.
+# Shape A adds its own tools (validation / rendering) in later phases.
+_LEGACY_TOOL_HANDLERS: dict[str, ToolHandler] = {
     "detect_conflicts": _handle_detect_conflicts,
     "generate_modifications": _handle_generate_modifications,
     "generate_pre_class_briefing": _handle_generate_pre_class_briefing,
     "generate_instructional_plan": _handle_generate_instructional_plan,
 }
 
+_LEGACY_TOOLS_FLAG = "PATHLIGHT_ENABLE_LEGACY_TOOLS"
 
-def build_tools() -> list[types.Tool]:
+
+def legacy_tools_enabled() -> bool:
+    return os.environ.get(_LEGACY_TOOLS_FLAG, "").strip().lower() in {"1", "true", "yes", "on"}
+
+
+def _legacy_tools() -> list[types.Tool]:
     return [
         types.Tool(
             name="detect_conflicts",
-            description="Primitive: detect student-lesson conflicts for one phase",
+            description="[legacy] Server-side: detect student-lesson conflicts for one phase",
             inputSchema=schema_student_lesson_phase(),
         ),
         types.Tool(
             name="generate_modifications",
-            description="Primitive: generate modifications from provided conflicts",
+            description="[legacy] Server-side: generate modifications from provided conflicts",
             inputSchema=schema_lesson_phase_conflicts(),
         ),
         types.Tool(
             name="generate_pre_class_briefing",
-            description="Primitive: generate briefing from provided modifications",
+            description="[legacy] Server-side: generate briefing from provided modifications",
             inputSchema=schema_student_lesson_modifications(),
         ),
         types.Tool(
             name="generate_instructional_plan",
-            description="Workflow: detect conflicts, generate modifications, and synthesize briefing",
+            description=(
+                "[legacy] Server-side workflow: detect conflicts, generate modifications, "
+                "and synthesize briefing. Disabled by default in Shape A; prefer the "
+                "`analyze_student_lesson` prompt with Claude-driven reasoning over MCP resources."
+            ),
             inputSchema=schema_student_lesson(),
         ),
     ]
+
+
+def build_tools() -> list[types.Tool]:
+    # Shape A default path is resource + prompt driven; Claude reasons directly.
+    # Validation/rendering tools arrive in later phases. Legacy workflow tools
+    # are only surfaced when explicitly enabled.
+    tools: list[types.Tool] = []
+    if legacy_tools_enabled():
+        tools.extend(_legacy_tools())
+    return tools
 
 
 async def dispatch_tool(
@@ -116,8 +145,13 @@ async def dispatch_tool(
     if not arguments:
         raise ValueError("Missing arguments")
 
-    handler = _TOOL_HANDLERS.get(name)
-    if handler is None:
-        raise ValueError(f"Unknown tool: {name}")
+    handler = _LEGACY_TOOL_HANDLERS.get(name)
+    if handler is not None:
+        if not legacy_tools_enabled():
+            raise ValueError(
+                f"Tool '{name}' is a legacy server-side workflow tool, disabled in Shape A. "
+                f"Set {_LEGACY_TOOLS_FLAG}=1 to enable it for experiments."
+            )
+        return await handler(ctx, arguments)
 
-    return await handler(ctx, arguments)
+    raise ValueError(f"Unknown tool: {name}")

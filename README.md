@@ -33,6 +33,30 @@ resources --> lesson[LessonData]
 tools --> output[DeterministicTeacherArtifact]
 ```
 
+## Entry Point: `analyze_student_lesson` Prompt
+
+The default path is the MCP prompt `analyze_student_lesson` (Claude-first).
+It instructs Claude to:
+1. read scoped MCP resources first,
+2. draft a structured teacher deliverable (not prose),
+3. self-validate (grounding, accommodation coverage, lesson-question references,
+   no unsupported output) before finalizing,
+4. treat output as a draft that supports edit / reject / partial regeneration.
+
+### Legacy server-side workflow (disabled by default)
+
+The earlier server-side LLM tools (`detect_conflicts`, `generate_modifications`,
+`generate_pre_class_briefing`, `generate_instructional_plan`) are legacy
+experiments. They are not registered and cannot be dispatched unless explicitly
+enabled:
+
+```bash
+PATHLIGHT_ENABLE_LEGACY_TOOLS=1
+```
+
+Accepted truthy values (case-insensitive): `1`, `true`, `yes`, `on`. Any other
+value (or unset) leaves the legacy tools disabled.
+
 ## v1 Scope Freeze
 
 Pathlight v1 intentionally targets:
