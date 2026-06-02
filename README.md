@@ -54,6 +54,9 @@ enabled:
 PATHLIGHT_ENABLE_LEGACY_TOOLS=1
 ```
 
+Accepted truthy values (case-insensitive): `1`, `true`, `yes`, `on`. Any other
+value (or unset) leaves the legacy tools disabled.
+
 ## v1 Scope Freeze
 
 Pathlight v1 intentionally targets:
