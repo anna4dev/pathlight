@@ -151,6 +151,14 @@ Canonical artifacts:
 - structured JSON deliverable
 - deterministic checklist markdown
 
+Implementation (Phase 4):
+
+- contract: `schemas/deliverable.py` (`TeacherDeliverable`) — Pydantic source of truth
+- renderer: `schemas/rendering.py` (`render_teacher_markdown`) — pure, order-preserving
+- tool entrypoint: `render_teacher_artifact` in `tools/registry.py` validates the
+  draft and returns canonical JSON + rendered markdown (deterministic, no LLM,
+  always registered alongside legacy gating)
+
 ---
 
 ## Domain Model
@@ -268,7 +276,9 @@ Benefits:
 
 ### Deterministic Rendering
 
-Final deliverables are renderer-controlled artifacts.
+Final deliverables are renderer-controlled artifacts. Claude drafts the JSON;
+`render_teacher_artifact` validates it against `TeacherDeliverable` and emits a
+stable markdown checklist via `render_teacher_markdown`.
 
 Benefits:
 
