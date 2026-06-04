@@ -16,6 +16,7 @@ from typing import Any
 import mcp.types as types
 
 from src.pathlight.resources import load_lesson, load_student
+from src.pathlight.schemas import TeacherDeliverable, render_teacher_markdown
 from src.pathlight.services.briefing.schemas import PreClassBriefing
 from src.pathlight.services.conflicts.schemas import LearningConflict
 from src.pathlight.services.modifications.schemas import StudentModification
@@ -82,8 +83,28 @@ async def _handle_generate_instructional_plan(
     return to_text_content(result)
 
 
-# All current handlers belong to the legacy server-side LLM workflow.
-# Shape A adds its own tools (validation / rendering) in later phases.
+async def _handle_render_teacher_artifact(
+    ctx: ToolContext,
+    args: dict[str, Any],
+) -> list[types.TextContent]:
+    # Deterministic, no LLM: validate the draft against the contract, then render.
+    deliverable = TeacherDeliverable.model_validate(args)
+    rendered = render_teacher_markdown(deliverable)
+    return to_text_content(
+        {
+            "deliverable": deliverable.model_dump(),
+            "rendered_markdown": rendered,
+        }
+    )
+
+
+# Shape A tools are deterministic (no server-side LLM) and always registered.
+_SHAPE_A_TOOL_HANDLERS: dict[str, ToolHandler] = {
+    "render_teacher_artifact": _handle_render_teacher_artifact,
+}
+
+
+# All handlers below belong to the legacy server-side LLM workflow.
 _LEGACY_TOOL_HANDLERS: dict[str, ToolHandler] = {
     "detect_conflicts": _handle_detect_conflicts,
     "generate_modifications": _handle_generate_modifications,
@@ -96,6 +117,21 @@ _LEGACY_TOOLS_FLAG = "PATHLIGHT_ENABLE_LEGACY_TOOLS"
 
 def legacy_tools_enabled() -> bool:
     return os.environ.get(_LEGACY_TOOLS_FLAG, "").strip().lower() in {"1", "true", "yes", "on"}
+
+
+def _shape_a_tools() -> list[types.Tool]:
+    return [
+        types.Tool(
+            name="render_teacher_artifact",
+            description=(
+                "Validate a teacher deliverable draft against the v1 output contract "
+                "and return both the canonical JSON and a deterministic markdown "
+                "checklist. Call this after drafting and self-validating in the "
+                "`analyze_student_lesson` prompt to produce the final artifact."
+            ),
+            inputSchema=TeacherDeliverable.model_json_schema(),
+        ),
+    ]
 
 
 def _legacy_tools() -> list[types.Tool]:
@@ -128,10 +164,10 @@ def _legacy_tools() -> list[types.Tool]:
 
 
 def build_tools() -> list[types.Tool]:
-    # Shape A default path is resource + prompt driven; Claude reasons directly.
-    # Validation/rendering tools arrive in later phases. Legacy workflow tools
-    # are only surfaced when explicitly enabled.
-    tools: list[types.Tool] = []
+    # Shape A default path is resource + prompt driven; Claude reasons directly,
+    # then calls the deterministic renderer to finalize the artifact. Legacy
+    # server-side workflow tools are only surfaced when explicitly enabled.
+    tools: list[types.Tool] = list(_shape_a_tools())
     if legacy_tools_enabled():
         tools.extend(_legacy_tools())
     return tools
@@ -144,6 +180,10 @@ async def dispatch_tool(
 ) -> list[types.TextContent]:
     if not arguments:
         raise ValueError("Missing arguments")
+
+    shape_a_handler = _SHAPE_A_TOOL_HANDLERS.get(name)
+    if shape_a_handler is not None:
+        return await shape_a_handler(ctx, arguments)
 
     handler = _LEGACY_TOOL_HANDLERS.get(name)
     if handler is not None:

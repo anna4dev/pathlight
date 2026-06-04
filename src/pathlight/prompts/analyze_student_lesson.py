@@ -72,6 +72,10 @@ Produce a single JSON draft with this shape:
   ]
 }}
 
+The contract is strict: include every key shown above, even when a section is
+empty (use `[]`), and do not add keys that are not in this shape. Omitting a
+section or introducing an extra/misspelled key will fail validation.
+
 ## Step 3 — Self-validate before finalizing
 Before presenting the draft, verify and fix:
 - Grounding: every action/reminder traces to a real IEP item (goal/PLAAFP/accommodation id).
@@ -80,10 +84,18 @@ Before presenting the draft, verify and fix:
 - No unsupported output: do not invent materials, accommodations, or questions absent from the resources.
 If any check fails, revise that section and re-check.
 
-## Step 4 — Human-in-the-loop
+## Step 4 — Render the canonical artifact
+Once the draft passes self-validation, call the `render_teacher_artifact` tool
+with the JSON draft as arguments. This validates the draft against the v1
+output contract and returns a deterministic markdown checklist. Present that
+rendered markdown to the teacher as the final deliverable; do not hand-format
+your own version of the checklist.
+
+## Step 5 — Human-in-the-loop
 Treat the output as a draft. The teacher may edit, reject, or ask you to
 regenerate only one section (e.g. one phase's actions, or the checklist).
-When regenerating a section, keep all accepted sections unchanged.
+When regenerating a section, keep all accepted sections unchanged and
+re-render via `render_teacher_artifact`.
 """
 
 

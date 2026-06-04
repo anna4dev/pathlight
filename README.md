@@ -66,7 +66,7 @@ Pathlight v1 intentionally targets:
 
 This is deliberate to maximize output quality and reproducibility.
 
-## v1 Deliverable
+## v1 Deliverable (Phase 4)
 
 The canonical output is a **renderer-controlled artifact** with:
 - before-class checklist
@@ -74,7 +74,47 @@ The canonical output is a **renderer-controlled artifact** with:
 - scaffolded questions tied to lesson question IDs
 - accommodation reminders with source references
 
-Claude can draft content, but final structure is controlled by schema + renderer.
+Claude drafts the content, but the final structure is controlled by a strict
+schema + a deterministic renderer:
+
+- **Output contract**: `src/pathlight/schemas/deliverable.py` (`TeacherDeliverable`)
+  is the Pydantic source of truth for the artifact shape. It is strict: every
+  structural section must be present (omitted sections error instead of
+  silently becoming `[]`) and unknown/misspelled keys are rejected. Emptiness
+  is left to the Phase 5 semantic validation suite.
+- **Deterministic renderer**: `src/pathlight/schemas/rendering.py`
+  (`render_teacher_markdown`) turns a validated draft into a stable,
+  order-preserving markdown checklist. Same input always yields the same
+  artifact (diffable, reproducible, testable).
+- **Tool entrypoint**: the `render_teacher_artifact` MCP tool validates the
+  draft against the contract and returns both the canonical JSON and the
+  rendered markdown. It is deterministic (no server-side LLM) and always
+  registered. Claude calls it in Step 4 of `analyze_student_lesson` after
+  self-validation, so the final deliverable never depends on free-form prose.
+
+Draft JSON shape:
+
+```json
+{
+  "student_id": "...",
+  "lesson_id": "...",
+  "before_class_checklist": [
+    {"action": "...", "accommodation_ref": "acc_xx (p.NN)"}
+  ],
+  "by_phase": [
+    {
+      "phase_id": "...",
+      "teacher_actions": ["..."],
+      "scaffolded_questions": [
+        {"question_id": "qN", "original": "...", "scaffolded": "..."}
+      ],
+      "accommodation_reminders": [
+        {"label": "...", "source": "acc_xx (p.NN)"}
+      ]
+    }
+  ]
+}
+```
 
 ## Validation Contract
 
