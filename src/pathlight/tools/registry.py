@@ -16,7 +16,11 @@ from typing import Any
 import mcp.types as types
 
 from src.pathlight.resources import load_lesson, load_student
-from src.pathlight.schemas import TeacherDeliverable, render_teacher_markdown
+from src.pathlight.schemas import (
+    TeacherDeliverable,
+    render_teacher_markdown,
+    validate_deliverable,
+)
 from src.pathlight.services.briefing.schemas import PreClassBriefing
 from src.pathlight.services.conflicts.schemas import LearningConflict
 from src.pathlight.services.modifications.schemas import StudentModification
@@ -83,6 +87,19 @@ async def _handle_generate_instructional_plan(
     return to_text_content(result)
 
 
+async def _handle_validate_teacher_artifact(
+    ctx: ToolContext,
+    args: dict[str, Any],
+) -> list[types.TextContent]:
+    # Deterministic, no LLM. First gate: schema (strict Pydantic). Second gate:
+    # semantic grounding against the real student IEP + lesson.
+    deliverable = TeacherDeliverable.model_validate(args)
+    student = load_student(deliverable.student_id)
+    lesson = load_lesson(deliverable.lesson_id)
+    report = validate_deliverable(deliverable, student, lesson)
+    return to_text_content(report.model_dump())
+
+
 async def _handle_render_teacher_artifact(
     ctx: ToolContext,
     args: dict[str, Any],
@@ -100,6 +117,7 @@ async def _handle_render_teacher_artifact(
 
 # Shape A tools are deterministic (no server-side LLM) and always registered.
 _SHAPE_A_TOOL_HANDLERS: dict[str, ToolHandler] = {
+    "validate_teacher_artifact": _handle_validate_teacher_artifact,
     "render_teacher_artifact": _handle_render_teacher_artifact,
 }
 
@@ -121,6 +139,18 @@ def legacy_tools_enabled() -> bool:
 
 def _shape_a_tools() -> list[types.Tool]:
     return [
+        types.Tool(
+            name="validate_teacher_artifact",
+            description=(
+                "Validate a teacher deliverable draft beyond schema: checks IEP "
+                "grounding (accommodation refs resolve to real ids), accommodation "
+                "coverage, lesson-question references, and unsupported phase/question "
+                "ids. Returns a structured report ({ok, error_count, warning_count, "
+                "issues[]}). Call this in the self-validation step and fix every "
+                "error before rendering."
+            ),
+            inputSchema=TeacherDeliverable.model_json_schema(),
+        ),
         types.Tool(
             name="render_teacher_artifact",
             description=(

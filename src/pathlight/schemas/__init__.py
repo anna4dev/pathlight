@@ -8,6 +8,11 @@ from src.pathlight.schemas.deliverable import (
     TeacherDeliverable,
 )
 from src.pathlight.schemas.rendering import render_teacher_markdown
+from src.pathlight.schemas.validation import (
+    ValidationIssue,
+    ValidationReport,
+    validate_deliverable,
+)
 
 __all__ = [
     "AccommodationReminder",
@@ -15,5 +20,8 @@ __all__ = [
     "PhasePlan",
     "ScaffoldedQuestion",
     "TeacherDeliverable",
+    "ValidationIssue",
+    "ValidationReport",
     "render_teacher_markdown",
+    "validate_deliverable",
 ]

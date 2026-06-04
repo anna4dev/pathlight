@@ -138,6 +138,17 @@ Repair behavior:
 - Claude regenerates only failing sections
 - accepted sections remain unchanged
 
+Implementation (Phase 5):
+
+- logic: `schemas/validation.py` (`validate_deliverable`) — pure, deterministic,
+  no LLM; runs after the strict Pydantic schema gate
+- tool entrypoint: `validate_teacher_artifact` in `tools/registry.py` loads the
+  real student IEP + lesson by id and returns a structured `ValidationReport`
+  (`{ok, error_count, warning_count, issues[]}`)
+- severity model: grounding / unknown phase / unknown question are `error`
+  (block acceptance via `ok=False`); coverage, page mismatch, and question-text
+  mismatch are advisory `warning`s
+
 ---
 
 ### Layer 4 — Deterministic Artifact Rendering

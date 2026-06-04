@@ -76,13 +76,18 @@ The contract is strict: include every key shown above, even when a section is
 empty (use `[]`), and do not add keys that are not in this shape. Omitting a
 section or introducing an extra/misspelled key will fail validation.
 
-## Step 3 — Self-validate before finalizing
-Before presenting the draft, verify and fix:
-- Grounding: every action/reminder traces to a real IEP item (goal/PLAAFP/accommodation id).
-- Accommodation coverage: required accommodations from instructional_core are represented.
-- Lesson-question references: each scaffolded_questions item cites a real `question_id`.
-- No unsupported output: do not invent materials, accommodations, or questions absent from the resources.
-If any check fails, revise that section and re-check.
+## Step 3 — Validate before finalizing
+Call the `validate_teacher_artifact` tool with your JSON draft. It runs
+deterministic semantic checks and returns
+`{{ok, error_count, warning_count, issues[]}}`, where each issue has a
+`code`, `severity`, `location`, and `message`:
+- Grounding: every `accommodation_ref` / `source` resolves to a real accommodation id.
+- Accommodation coverage: IEP accommodations are represented in the plan.
+- Lesson-question references: each `scaffolded_questions.question_id` is a real lesson question.
+- Unsupported output: no invented phase ids or question ids.
+Fix every `error` issue (revise only the failing `location`) and re-run the
+tool until `ok` is true. Treat `warning` issues as advice; resolve or
+consciously keep them.
 
 ## Step 4 — Render the canonical artifact
 Once the draft passes self-validation, call the `render_teacher_artifact` tool

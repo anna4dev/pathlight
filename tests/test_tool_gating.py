@@ -10,7 +10,7 @@ class ToolGatingTests(unittest.TestCase):
         with mock.patch.dict(os.environ, {}, clear=True):
             self.assertFalse(legacy_tools_enabled())
             names = {tool.name for tool in build_tools()}
-            self.assertEqual(names, {"render_teacher_artifact"})
+            self.assertEqual(names, {"validate_teacher_artifact", "render_teacher_artifact"})
 
     def test_flag_enables_legacy_tools(self) -> None:
         with mock.patch.dict(os.environ, {"PATHLIGHT_ENABLE_LEGACY_TOOLS": "1"}, clear=True):

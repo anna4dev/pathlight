@@ -116,16 +116,43 @@ Draft JSON shape:
 }
 ```
 
-## Validation Contract
+## Validation Contract (Phase 5)
 
-v1 validation is multi-layered (not schema-only):
-- schema validity checks
-- IEP grounding checks
-- accommodation coverage checks
-- lesson-question reference checks
-- unsupported output detection
+v1 validation is multi-layered (not schema-only). Two gates, both deterministic
+(no LLM):
 
-Validation errors are structured so Claude can self-correct or request teacher input.
+1. **Schema gate** — `TeacherDeliverable` (strict Pydantic): required sections,
+   no unknown keys, no type coercion.
+2. **Semantic gate** — `src/pathlight/schemas/validation.py`
+   (`validate_deliverable`), exposed as the `validate_teacher_artifact` MCP tool:
+   - **IEP grounding**: every `accommodation_ref` / `source` resolves to a real
+     accommodation id (page mismatch is a warning).
+   - **accommodation coverage**: IEP accommodations not referenced anywhere are
+     flagged (warning — not every accommodation applies to every lesson).
+   - **lesson-question references**: each `scaffolded_questions.question_id` is a
+     real lesson question id (`original` text mismatch is a warning).
+   - **unsupported output detection**: invented phase ids / question ids are
+     errors.
+
+The tool returns a structured report so Claude can self-correct only the failing
+sections, or surface issues to the teacher:
+
+```json
+{
+  "ok": false,
+  "error_count": 1,
+  "warning_count": 1,
+  "issues": [
+    {"code": "unknown_phase_id", "severity": "error",
+     "location": "by_phase[0].phase_id", "message": "...",
+     "found": "warmup", "expected": ["intro", "during_reading", "..."]}
+  ]
+}
+```
+
+`ok` is true only when there are no `error`-severity issues; warnings are
+advisory. Claude calls this in Step 3 of `analyze_student_lesson` and fixes
+every error before rendering.
 
 ## Resource Contract (Phase 2)
 
