@@ -72,6 +72,10 @@ Produce a single JSON draft with this shape:
   ]
 }}
 
+The contract is strict: include every key shown above, even when a section is
+empty (use `[]`), and do not add keys that are not in this shape. Omitting a
+section or introducing an extra/misspelled key will fail validation.
+
 ## Step 3 — Self-validate before finalizing
 Before presenting the draft, verify and fix:
 - Grounding: every action/reminder traces to a real IEP item (goal/PLAAFP/accommodation id).

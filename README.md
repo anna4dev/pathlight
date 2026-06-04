@@ -78,7 +78,10 @@ Claude drafts the content, but the final structure is controlled by a strict
 schema + a deterministic renderer:
 
 - **Output contract**: `src/pathlight/schemas/deliverable.py` (`TeacherDeliverable`)
-  is the Pydantic source of truth for the artifact shape.
+  is the Pydantic source of truth for the artifact shape. It is strict: every
+  structural section must be present (omitted sections error instead of
+  silently becoming `[]`) and unknown/misspelled keys are rejected. Emptiness
+  is left to the Phase 5 semantic validation suite.
 - **Deterministic renderer**: `src/pathlight/schemas/rendering.py`
   (`render_teacher_markdown`) turns a validated draft into a stable,
   order-preserving markdown checklist. Same input always yields the same

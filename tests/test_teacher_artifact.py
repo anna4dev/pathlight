@@ -45,12 +45,55 @@ class TeacherDeliverableSchemaTests(unittest.TestCase):
         deliverable = TeacherDeliverable.model_validate(SAMPLE)
         self.assertIsNone(deliverable.before_class_checklist[1].accommodation_ref)
 
-    def test_rejects_missing_required_field(self) -> None:
+    def test_rejects_missing_leaf_field(self) -> None:
         # scaffolded_questions require question_id/original/scaffolded.
         bad = json.loads(json.dumps(SAMPLE))
         del bad["by_phase"][0]["scaffolded_questions"][0]["question_id"]
         with self.assertRaises(ValidationError):
             TeacherDeliverable.model_validate(bad)
+
+    def test_rejects_omitted_top_level_sections(self) -> None:
+        # Omitted structural sections must error, not default to [].
+        for key in ("before_class_checklist", "by_phase"):
+            bad = json.loads(json.dumps(SAMPLE))
+            del bad[key]
+            with self.assertRaises(ValidationError, msg=f"omitting {key} should fail"):
+                TeacherDeliverable.model_validate(bad)
+
+    def test_rejects_omitted_phase_sections(self) -> None:
+        for key in ("teacher_actions", "scaffolded_questions", "accommodation_reminders"):
+            bad = json.loads(json.dumps(SAMPLE))
+            del bad["by_phase"][0][key]
+            with self.assertRaises(ValidationError, msg=f"omitting phase.{key} should fail"):
+                TeacherDeliverable.model_validate(bad)
+
+    def test_rejects_unknown_top_level_key(self) -> None:
+        bad = json.loads(json.dumps(SAMPLE))
+        bad["unexpected"] = "x"
+        with self.assertRaises(ValidationError):
+            TeacherDeliverable.model_validate(bad)
+
+    def test_rejects_unknown_nested_key(self) -> None:
+        # Misspelled / unexpected keys on nested objects must not be silently dropped.
+        bad = json.loads(json.dumps(SAMPLE))
+        bad["by_phase"][0]["scaffold_questions"] = []  # typo of scaffolded_questions
+        with self.assertRaises(ValidationError):
+            TeacherDeliverable.model_validate(bad)
+
+    def test_rejects_coerced_types(self) -> None:
+        # strict=True: an int must not be coerced into a string field.
+        bad = json.loads(json.dumps(SAMPLE))
+        bad["by_phase"][0]["scaffolded_questions"][0]["question_id"] = 1
+        with self.assertRaises(ValidationError):
+            TeacherDeliverable.model_validate(bad)
+
+    def test_empty_sections_are_allowed_when_present(self) -> None:
+        # Emptiness is a semantic concern (Phase 5), not a schema error.
+        ok = json.loads(json.dumps(SAMPLE))
+        ok["by_phase"][0]["scaffolded_questions"] = []
+        ok["by_phase"][0]["accommodation_reminders"] = []
+        deliverable = TeacherDeliverable.model_validate(ok)
+        self.assertEqual(deliverable.by_phase[0].scaffolded_questions, [])
 
 
 class RendererTests(unittest.TestCase):
