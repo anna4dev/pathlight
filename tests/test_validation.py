@@ -9,7 +9,9 @@ from pathlight.tools.registry import dispatch_tool
 
 STUDENT_ID = "35110GST"
 LESSON_ID = "community"
-Q1_TEXT = "Which best describes the author’s main purpose in writing the article?"
+# Derive the question text from the source of truth so the test does not depend
+# on reproducing exact punctuation (e.g. curly vs ASCII apostrophes).
+Q1_TEXT = load_lesson(LESSON_ID).formative_checks[0].question
 
 # Fully grounded draft: every accommodation referenced, valid phase + question.
 GOOD = {
@@ -111,19 +113,14 @@ class CoverageTests(unittest.TestCase):
 
 
 class InstructionalContextToolTests(unittest.TestCase):
-    def test_returns_grounded_scoped_payload(self) -> None:
+    def _call(self, **arguments):
         result = asyncio.run(
-            dispatch_tool(
-                ctx=None,
-                name="get_instructional_context",
-                arguments={
-                    "student_id": STUDENT_ID,
-                    "lesson_id": LESSON_ID,
-                    "phase_id": "intro",
-                },
-            )
+            dispatch_tool(ctx=None, name="get_instructional_context", arguments=arguments)
         )
-        payload = json.loads(result[0].text)
+        return json.loads(result[0].text)
+
+    def test_returns_grounded_scoped_payload(self) -> None:
+        payload = self._call(student_id=STUDENT_ID, lesson_id=LESSON_ID, phase_id="intro")
         self.assertEqual(payload["phase_id"], "intro")
         self.assertIn("formative_checks", payload)
         core = payload["student_instructional_core"]
@@ -131,6 +128,14 @@ class InstructionalContextToolTests(unittest.TestCase):
         # ground the draft instead of inventing generic text.
         labels = " ".join(a["label"] for a in core["accommodations"])
         self.assertIn("Repeat directions", labels)
+
+    def test_discovery_mode_lists_phase_ids(self) -> None:
+        # Omitting phase_id returns the phase ids Claude needs to plan.
+        payload = self._call(student_id=STUDENT_ID, lesson_id=LESSON_ID)
+        self.assertIn("intro", payload["phase_ids"])
+        self.assertIn("lesson_overview", payload)
+        self.assertIn("student_instructional_core", payload)
+        self.assertNotIn("formative_checks", payload)
 
 
 class ValidateToolDispatchTests(unittest.TestCase):

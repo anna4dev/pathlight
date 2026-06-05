@@ -8,6 +8,7 @@ the ``PATHLIGHT_ENABLE_LEGACY_TOOLS`` environment flag.
 
 from __future__ import annotations
 
+import json
 import os
 from collections.abc import Awaitable, Callable
 from dataclasses import dataclass
@@ -34,6 +35,7 @@ from pathlight.tools.schemas import (
     schema_lesson_phase_conflicts,
     schema_student_lesson,
     schema_student_lesson_modifications,
+    schema_student_lesson_optional_phase,
     schema_student_lesson_phase,
 )
 
@@ -93,15 +95,37 @@ async def _handle_get_instructional_context(
     args: dict[str, Any],
 ) -> list[types.TextContent]:
     # Deterministic, no LLM. Claude Desktop does not auto-read MCP *resources*
-    # in its tool loop, so this tool delivers the same scoped slice that backs
-    # `student://{id}/scopes/lesson/{lid}/phase/{pid}`, letting Claude pull the
-    # real IEP/lesson content (accommodation labels, phase, questions) before
-    # drafting. Reuses the resource reader to guarantee parity.
-    uri = (
-        f"student://{args['student_id']}/scopes/lesson/"
-        f"{args['lesson_id']}/phase/{args['phase_id']}"
+    # in its tool loop, so this tool delivers the same data via a tool call and
+    # reuses the resource reader to guarantee parity.
+    student_id = args["student_id"]
+    lesson_id = args["lesson_id"]
+    phase_id = args.get("phase_id")
+
+    if phase_id:
+        # Scoped slice for one phase: overview + phase + questions + IEP core.
+        uri = f"student://{student_id}/scopes/lesson/{lesson_id}/phase/{phase_id}"
+        return [types.TextContent(type="text", text=read_resource_payload(uri))]
+
+    # Discovery mode: enumerate phase ids so Claude knows what to plan, plus the
+    # lesson overview and the student's instructional core (real accommodations).
+    phases = json.loads(read_resource_payload(f"lesson://{lesson_id}/phases"))
+    overview = json.loads(read_resource_payload(f"lesson://{lesson_id}/overview"))
+    core = json.loads(
+        read_resource_payload(f"student://{student_id}/scopes/instructional_core")
     )
-    return [types.TextContent(type="text", text=read_resource_payload(uri))]
+    return to_text_content(
+        {
+            "student_id": student_id,
+            "lesson_id": lesson_id,
+            "lesson_overview": overview,
+            "phase_ids": [phase["phase_id"] for phase in phases],
+            "phases": [
+                {"phase_id": phase["phase_id"], "title": phase["title"]}
+                for phase in phases
+            ],
+            "student_instructional_core": core,
+        }
+    )
 
 
 async def _handle_validate_teacher_artifact(
@@ -160,14 +184,15 @@ def _shape_a_tools() -> list[types.Tool]:
         types.Tool(
             name="get_instructional_context",
             description=(
-                "Fetch the grounded context for one student + lesson + phase in a "
-                "single read: lesson overview, the requested phase, formative "
-                "questions (with stable question ids), and the student's "
-                "instructional core (profile, PLAAFP, goals, accommodations with "
-                "real labels and source pages). Call this FIRST and base the draft "
+                "Fetch grounded context for the student + lesson. Call with only "
+                "student_id + lesson_id to discover available phase ids (plus "
+                "lesson overview and the student's instructional core). Call again "
+                "with a phase_id to get that phase's scoped slice: the phase, "
+                "formative questions (stable question ids), and the student's "
+                "accommodations with real labels and source pages. Base the draft "
                 "on the returned content; do not invent accommodation text."
             ),
-            inputSchema=schema_student_lesson_phase(),
+            inputSchema=schema_student_lesson_optional_phase(),
         ),
         types.Tool(
             name="validate_teacher_artifact",

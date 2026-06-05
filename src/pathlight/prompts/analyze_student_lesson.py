@@ -39,21 +39,25 @@ Target:
 - student_id: {student_id}
 - lesson_id: {lesson_id}
 
-## Step 1 — Fetch grounded context first (tool call)
-Call the `get_instructional_context` tool for each phase you will plan:
-- arguments: `student_id={student_id}`, `lesson_id={lesson_id}`, `phase_id=<phase_id>`
-It returns, in one read: the lesson overview, the phase, the formative questions
-(with stable `question_id`s), and the student's instructional core — including
-the **real accommodation labels and source pages** (e.g. acc_01 = "Repeat
-directions; copy of teacher's notes").
+## Step 1 — Fetch grounded context first (tool calls)
+First, discover the lesson's phases: call `get_instructional_context` with only
+- `student_id={student_id}`, `lesson_id={lesson_id}` (omit `phase_id`)
+This returns the lesson overview, the list of available `phase_ids`, and the
+student's instructional core.
+
+Then, for each phase you will plan, call `get_instructional_context` again with
+- `student_id={student_id}`, `lesson_id={lesson_id}`, `phase_id=<one of the phase_ids>`
+This returns that phase, its formative questions (with stable `question_id`s),
+and the student's instructional core — including the **real accommodation labels
+and source pages** (e.g. acc_01 = "Repeat directions; copy of teacher's notes").
 
 Base every action, scaffold, and reminder on this returned content. Do NOT
 invent accommodation text or infer it from ids alone: a checklist item must
 reflect what the accommodation actually says.
 
-(The same data is also available as the MCP resource
-`student://{student_id}/scopes/lesson/{lesson_id}/phase/<phase_id>` if you
-attach it manually, but the tool is the reliable path for autonomous reasoning.)
+(The same data is also available as MCP resources, e.g.
+`student://{student_id}/scopes/lesson/{lesson_id}/phase/<phase_id>`, if you
+attach them manually, but the tool is the reliable path for autonomous reasoning.)
 
 ## Step 2 — Draft a structured deliverable (not prose)
 Produce a single JSON draft with this shape:
