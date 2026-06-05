@@ -4,7 +4,7 @@ import json
 from typing import List, Dict, Any, Optional
 import pdfplumber
 from pydantic import ValidationError
-from src.pathlight.models import Student, Profile, PLAAFP, Goal, Accommodation, Service, KeyDates
+from pathlight.models import Student, Profile, PLAAFP, Goal, Accommodation, Service, KeyDates
 from scripts.iep.plaafp import PLAAFPParser
 from scripts.iep.goals import GoalParser
 from scripts.iep.accommodations import AccommodationsParser

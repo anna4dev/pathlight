@@ -1,7 +1,7 @@
 import re
 from typing import List
 from .base import BaseIEPParser
-from src.pathlight.models import Goal
+from pathlight.models import Goal
 
 class GoalParser(BaseIEPParser):
     def parse(self) -> List[Goal]:

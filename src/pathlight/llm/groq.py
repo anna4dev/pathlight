@@ -4,12 +4,13 @@ from __future__ import annotations
 
 import json
 import os
+import sys
 from typing import TypeVar
 
 from groq import AsyncGroq
 from pydantic import TypeAdapter, ValidationError
 
-from src.pathlight.shared.utils import LLMJsonParseError, extract_json_string
+from pathlight.shared.utils import LLMJsonParseError, extract_json_string
 from .exceptions import LLMResponseValidationError
 
 T = TypeVar("T")
@@ -18,9 +19,11 @@ T = TypeVar("T")
 class GroqClient:
     def __init__(self) -> None:
         self.api_key = os.environ.get("GROQ_API_KEY")
+        # stderr only: stdout is the MCP JSON-RPC channel under stdio transport.
         print(
             f"--- DEBUG: GROQ_API_KEY is "
-            f"{'SET' if self.api_key else 'NOT SET'} ---"
+            f"{'SET' if self.api_key else 'NOT SET'} ---",
+            file=sys.stderr,
         )
         self.client = AsyncGroq(api_key=self.api_key) if self.api_key else None
         self.model = "llama-3.3-70b-versatile"

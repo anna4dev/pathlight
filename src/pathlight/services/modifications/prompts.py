@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from src.pathlight.models import Lesson
+from pathlight.models import Lesson
 
 
 MODIFICATION_SYSTEM_PROMPT = """

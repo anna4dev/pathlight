@@ -8,9 +8,9 @@ from typing import Any
 
 import mcp.types as types
 
-from src.pathlight.models import Lesson, Student
-from src.pathlight.resources.lessons import list_lesson_ids, load_lesson
-from src.pathlight.resources.students import list_student_ids, load_student
+from pathlight.models import Lesson, Student
+from pathlight.resources.lessons import list_lesson_ids, load_lesson
+from pathlight.resources.students import list_student_ids, load_student
 
 
 def _json_dump(value: Any) -> str:

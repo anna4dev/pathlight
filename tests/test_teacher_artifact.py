@@ -4,8 +4,8 @@ import unittest
 
 from pydantic import ValidationError
 
-from src.pathlight.schemas import TeacherDeliverable, render_teacher_markdown
-from src.pathlight.tools.registry import dispatch_tool
+from pathlight.schemas import TeacherDeliverable, render_teacher_markdown
+from pathlight.tools.registry import dispatch_tool
 
 
 SAMPLE = {

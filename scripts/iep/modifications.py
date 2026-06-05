@@ -2,7 +2,7 @@ import re
 from collections import defaultdict
 
 from .base import BaseIEPParser
-from src.pathlight.models import Modification
+from pathlight.models import Modification
 
 
 class ModificationParser(BaseIEPParser):

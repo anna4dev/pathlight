@@ -101,6 +101,19 @@ Design constraints:
 
 ---
 
+### Resources vs. tools for context delivery
+
+MCP resources are addressable context, but Claude Desktop does not auto-read
+them in its autonomous tool loop (they require manual attachment); it does call
+tools autonomously. So context is delivered two ways from one source of truth:
+
+- **resource**: `student://{id}/scopes/lesson/{lid}/phase/{pid}` (manual attach / inspection)
+- **tool**: `get_instructional_context(student_id, lesson_id, phase_id)` — deterministic,
+  reuses the same `read_resource_payload` path, returns real accommodation labels
+  and source pages so drafts are grounded in content, not just ids
+
+---
+
 ### Layer 2 — Native Claude Reasoning
 
 Goal:
@@ -137,6 +150,17 @@ Repair behavior:
 - validation returns structured errors
 - Claude regenerates only failing sections
 - accepted sections remain unchanged
+
+Implementation (Phase 5):
+
+- logic: `schemas/validation.py` (`validate_deliverable`) — pure, deterministic,
+  no LLM; runs after the strict Pydantic schema gate
+- tool entrypoint: `validate_teacher_artifact` in `tools/registry.py` loads the
+  real student IEP + lesson by id and returns a structured `ValidationReport`
+  (`{ok, error_count, warning_count, issues[]}`)
+- severity model: grounding / unknown phase / unknown question are `error`
+  (block acceptance via `ok=False`); coverage, page mismatch, and question-text
+  mismatch are advisory `warning`s
 
 ---
 

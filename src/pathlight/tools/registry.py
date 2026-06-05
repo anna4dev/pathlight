@@ -8,6 +8,7 @@ the ``PATHLIGHT_ENABLE_LEGACY_TOOLS`` environment flag.
 
 from __future__ import annotations
 
+import json
 import os
 from collections.abc import Awaitable, Callable
 from dataclasses import dataclass
@@ -15,20 +16,26 @@ from typing import Any
 
 import mcp.types as types
 
-from src.pathlight.resources import load_lesson, load_student
-from src.pathlight.schemas import TeacherDeliverable, render_teacher_markdown
-from src.pathlight.services.briefing.schemas import PreClassBriefing
-from src.pathlight.services.conflicts.schemas import LearningConflict
-from src.pathlight.services.modifications.schemas import StudentModification
-from src.pathlight.services.workflow.service import LessonAdaptationWorkflowService
-from src.pathlight.services.briefing.service import BriefingService
-from src.pathlight.services.conflicts.service import ConflictService
-from src.pathlight.services.modifications.service import ModificationService
-from src.pathlight.shared.serialization import to_text_content
-from src.pathlight.tools.schemas import (
+from pathlight.resources import load_lesson, load_student
+from pathlight.resources.gateway import read_resource_payload
+from pathlight.schemas import (
+    TeacherDeliverable,
+    render_teacher_markdown,
+    validate_deliverable,
+)
+from pathlight.services.briefing.schemas import PreClassBriefing
+from pathlight.services.conflicts.schemas import LearningConflict
+from pathlight.services.modifications.schemas import StudentModification
+from pathlight.services.workflow.service import LessonAdaptationWorkflowService
+from pathlight.services.briefing.service import BriefingService
+from pathlight.services.conflicts.service import ConflictService
+from pathlight.services.modifications.service import ModificationService
+from pathlight.shared.serialization import to_text_content
+from pathlight.tools.schemas import (
     schema_lesson_phase_conflicts,
     schema_student_lesson,
     schema_student_lesson_modifications,
+    schema_student_lesson_optional_phase,
     schema_student_lesson_phase,
 )
 
@@ -83,6 +90,57 @@ async def _handle_generate_instructional_plan(
     return to_text_content(result)
 
 
+async def _handle_get_instructional_context(
+    ctx: ToolContext,
+    args: dict[str, Any],
+) -> list[types.TextContent]:
+    # Deterministic, no LLM. Claude Desktop does not auto-read MCP *resources*
+    # in its tool loop, so this tool delivers the same data via a tool call and
+    # reuses the resource reader to guarantee parity.
+    student_id = args["student_id"]
+    lesson_id = args["lesson_id"]
+    phase_id = args.get("phase_id")
+
+    if phase_id:
+        # Scoped slice for one phase: overview + phase + questions + IEP core.
+        uri = f"student://{student_id}/scopes/lesson/{lesson_id}/phase/{phase_id}"
+        return [types.TextContent(type="text", text=read_resource_payload(uri))]
+
+    # Discovery mode: enumerate phase ids so Claude knows what to plan, plus the
+    # lesson overview and the student's instructional core (real accommodations).
+    phases = json.loads(read_resource_payload(f"lesson://{lesson_id}/phases"))
+    overview = json.loads(read_resource_payload(f"lesson://{lesson_id}/overview"))
+    core = json.loads(
+        read_resource_payload(f"student://{student_id}/scopes/instructional_core")
+    )
+    return to_text_content(
+        {
+            "student_id": student_id,
+            "lesson_id": lesson_id,
+            "lesson_overview": overview,
+            "phase_ids": [phase["phase_id"] for phase in phases],
+            "phases": [
+                {"phase_id": phase["phase_id"], "title": phase["title"]}
+                for phase in phases
+            ],
+            "student_instructional_core": core,
+        }
+    )
+
+
+async def _handle_validate_teacher_artifact(
+    ctx: ToolContext,
+    args: dict[str, Any],
+) -> list[types.TextContent]:
+    # Deterministic, no LLM. First gate: schema (strict Pydantic). Second gate:
+    # semantic grounding against the real student IEP + lesson.
+    deliverable = TeacherDeliverable.model_validate(args)
+    student = load_student(deliverable.student_id)
+    lesson = load_lesson(deliverable.lesson_id)
+    report = validate_deliverable(deliverable, student, lesson)
+    return to_text_content(report.model_dump())
+
+
 async def _handle_render_teacher_artifact(
     ctx: ToolContext,
     args: dict[str, Any],
@@ -100,6 +158,8 @@ async def _handle_render_teacher_artifact(
 
 # Shape A tools are deterministic (no server-side LLM) and always registered.
 _SHAPE_A_TOOL_HANDLERS: dict[str, ToolHandler] = {
+    "get_instructional_context": _handle_get_instructional_context,
+    "validate_teacher_artifact": _handle_validate_teacher_artifact,
     "render_teacher_artifact": _handle_render_teacher_artifact,
 }
 
@@ -121,6 +181,31 @@ def legacy_tools_enabled() -> bool:
 
 def _shape_a_tools() -> list[types.Tool]:
     return [
+        types.Tool(
+            name="get_instructional_context",
+            description=(
+                "Fetch grounded context for the student + lesson. Call with only "
+                "student_id + lesson_id to discover available phase ids (plus "
+                "lesson overview and the student's instructional core). Call again "
+                "with a phase_id to get that phase's scoped slice: the phase, "
+                "formative questions (stable question ids), and the student's "
+                "accommodations with real labels and source pages. Base the draft "
+                "on the returned content; do not invent accommodation text."
+            ),
+            inputSchema=schema_student_lesson_optional_phase(),
+        ),
+        types.Tool(
+            name="validate_teacher_artifact",
+            description=(
+                "Validate a teacher deliverable draft beyond schema: checks IEP "
+                "grounding (accommodation refs resolve to real ids), accommodation "
+                "coverage, lesson-question references, and unsupported phase/question "
+                "ids. Returns a structured report ({ok, error_count, warning_count, "
+                "issues[]}). Call this in the self-validation step and fix every "
+                "error before rendering."
+            ),
+            inputSchema=TeacherDeliverable.model_json_schema(),
+        ),
         types.Tool(
             name="render_teacher_artifact",
             description=(

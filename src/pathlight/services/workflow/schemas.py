@@ -5,9 +5,9 @@ from __future__ import annotations
 from typing import List
 
 from pydantic import BaseModel
-from src.pathlight.services.briefing.schemas import PreClassBriefing
-from src.pathlight.services.conflicts.schemas import LearningConflict
-from src.pathlight.services.modifications.schemas import StudentModification
+from pathlight.services.briefing.schemas import PreClassBriefing
+from pathlight.services.conflicts.schemas import LearningConflict
+from pathlight.services.modifications.schemas import StudentModification
 
 
 class PhaseAdaptation(BaseModel):

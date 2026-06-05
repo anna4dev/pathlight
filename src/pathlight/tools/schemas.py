@@ -67,6 +67,21 @@ def schema_student_lesson_phase() -> dict[str, Any]:
     )
 
 
+def schema_student_lesson_optional_phase() -> dict[str, Any]:
+    return object_schema(
+        properties={
+            "student_id": _STUDENT_ID,
+            "lesson_id": _LESSON_ID,
+            "phase_id": {
+                **_PHASE_ID,
+                "description": "Optional. Omit to discover available phase ids; "
+                "provide to fetch that phase's scoped context.",
+            },
+        },
+        required=["student_id", "lesson_id"],
+    )
+
+
 def schema_lesson_phase_conflicts() -> dict[str, Any]:
     return object_schema(
         properties={

@@ -39,16 +39,25 @@ Target:
 - student_id: {student_id}
 - lesson_id: {lesson_id}
 
-## Step 1 — Read context first (scoped MCP resources)
-Read these resources before reasoning:
-- `student://{student_id}/scopes/instructional_core`
-  (profile teaching context, PLAAFP, goals, accommodations)
-- `lesson://{lesson_id}/overview` (grade, duration, objective summary)
-- `lesson://{lesson_id}/phases` (to enumerate phase ids)
-Then, for each phase id, read the cross-resource slice:
-- `student://{student_id}/scopes/lesson/{lesson_id}/phase/<phase_id>`
-  (phase + formative questions + the student's instructional core in one read)
-Use `lesson://{lesson_id}/questions/<qN>` if you need a specific question verbatim.
+## Step 1 — Fetch grounded context first (tool calls)
+First, discover the lesson's phases: call `get_instructional_context` with only
+- `student_id={student_id}`, `lesson_id={lesson_id}` (omit `phase_id`)
+This returns the lesson overview, the list of available `phase_ids`, and the
+student's instructional core.
+
+Then, for each phase you will plan, call `get_instructional_context` again with
+- `student_id={student_id}`, `lesson_id={lesson_id}`, `phase_id=<one of the phase_ids>`
+This returns that phase, its formative questions (with stable `question_id`s),
+and the student's instructional core — including the **real accommodation labels
+and source pages** (e.g. acc_01 = "Repeat directions; copy of teacher's notes").
+
+Base every action, scaffold, and reminder on this returned content. Do NOT
+invent accommodation text or infer it from ids alone: a checklist item must
+reflect what the accommodation actually says.
+
+(The same data is also available as MCP resources, e.g.
+`student://{student_id}/scopes/lesson/{lesson_id}/phase/<phase_id>`, if you
+attach them manually, but the tool is the reliable path for autonomous reasoning.)
 
 ## Step 2 — Draft a structured deliverable (not prose)
 Produce a single JSON draft with this shape:
@@ -76,13 +85,18 @@ The contract is strict: include every key shown above, even when a section is
 empty (use `[]`), and do not add keys that are not in this shape. Omitting a
 section or introducing an extra/misspelled key will fail validation.
 
-## Step 3 — Self-validate before finalizing
-Before presenting the draft, verify and fix:
-- Grounding: every action/reminder traces to a real IEP item (goal/PLAAFP/accommodation id).
-- Accommodation coverage: required accommodations from instructional_core are represented.
-- Lesson-question references: each scaffolded_questions item cites a real `question_id`.
-- No unsupported output: do not invent materials, accommodations, or questions absent from the resources.
-If any check fails, revise that section and re-check.
+## Step 3 — Validate before finalizing
+Call the `validate_teacher_artifact` tool with your JSON draft. It runs
+deterministic semantic checks and returns
+`{{ok, error_count, warning_count, issues[]}}`, where each issue has a
+`code`, `severity`, `location`, and `message`:
+- Grounding: every `accommodation_ref` / `source` resolves to a real accommodation id.
+- Accommodation coverage: IEP accommodations are represented in the plan.
+- Lesson-question references: each `scaffolded_questions.question_id` is a real lesson question.
+- Unsupported output: no invented phase ids or question ids.
+Fix every `error` issue (revise only the failing `location`) and re-run the
+tool until `ok` is true. Treat `warning` issues as advice; resolve or
+consciously keep them.
 
 ## Step 4 — Render the canonical artifact
 Once the draft passes self-validation, call the `render_teacher_artifact` tool

@@ -4,15 +4,15 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, List
 
-from src.pathlight.services.conflicts.schemas import LearningConflict
-from src.pathlight.shared.serialization import models_to_json_str
-from src.pathlight.shared.utils import debug_json, debug_log
+from pathlight.services.conflicts.schemas import LearningConflict
+from pathlight.shared.serialization import models_to_json_str
+from pathlight.shared.utils import debug_json, debug_log
 from . import prompts
 from .schemas import StudentModification
 
 if TYPE_CHECKING:
-    from src.pathlight.llm import JsonLLMClient
-    from src.pathlight.models import Lesson
+    from pathlight.llm import JsonLLMClient
+    from pathlight.models import Lesson
 
 
 class ModificationService:

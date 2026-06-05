@@ -2,11 +2,11 @@
 
 from __future__ import annotations
 
-from src.pathlight.services.briefing.service import BriefingService
-from src.pathlight.services.conflicts.service import ConflictService
-from src.pathlight.services.modifications.service import ModificationService
-from src.pathlight.services.workflow.schemas import LessonAdaptation, PhaseAdaptation
-from src.pathlight.models import Lesson, Student
+from pathlight.services.briefing.service import BriefingService
+from pathlight.services.conflicts.service import ConflictService
+from pathlight.services.modifications.service import ModificationService
+from pathlight.services.workflow.schemas import LessonAdaptation, PhaseAdaptation
+from pathlight.models import Lesson, Student
 
 
 class LessonAdaptationWorkflowService:

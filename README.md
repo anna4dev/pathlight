@@ -37,11 +37,23 @@ tools --> output[DeterministicTeacherArtifact]
 
 The default path is the MCP prompt `analyze_student_lesson` (Claude-first).
 It instructs Claude to:
-1. read scoped MCP resources first,
+1. fetch grounded context via the `get_instructional_context` tool first,
 2. draft a structured teacher deliverable (not prose),
-3. self-validate (grounding, accommodation coverage, lesson-question references,
-   no unsupported output) before finalizing,
-4. treat output as a draft that supports edit / reject / partial regeneration.
+3. self-validate via `validate_teacher_artifact` (grounding, accommodation
+   coverage, lesson-question references, no unsupported output) before finalizing,
+4. render the canonical artifact via `render_teacher_artifact`,
+5. treat output as a draft that supports edit / reject / partial regeneration.
+
+### Why a context *tool* and not only resources
+
+MCP **resources** (`student://...`, `lesson://...`) are addressable context, but
+Claude Desktop does not auto-read them inside its autonomous tool loop — they
+must be attached manually. Claude *does* call **tools** autonomously. So the
+same scoped slice is also exposed as the deterministic `get_instructional_context`
+tool (student + lesson + phase → overview, phase, questions, and the student's
+instructional core with **real accommodation labels and source pages**). This
+prevents drafts that reference accommodation ids without reflecting their actual
+content. The resources remain available for manual attachment and inspection.
 
 ### Legacy server-side workflow (disabled by default)
 
@@ -116,16 +128,43 @@ Draft JSON shape:
 }
 ```
 
-## Validation Contract
+## Validation Contract (Phase 5)
 
-v1 validation is multi-layered (not schema-only):
-- schema validity checks
-- IEP grounding checks
-- accommodation coverage checks
-- lesson-question reference checks
-- unsupported output detection
+v1 validation is multi-layered (not schema-only). Two gates, both deterministic
+(no LLM):
 
-Validation errors are structured so Claude can self-correct or request teacher input.
+1. **Schema gate** — `TeacherDeliverable` (strict Pydantic): required sections,
+   no unknown keys, no type coercion.
+2. **Semantic gate** — `src/pathlight/schemas/validation.py`
+   (`validate_deliverable`), exposed as the `validate_teacher_artifact` MCP tool:
+   - **IEP grounding**: every `accommodation_ref` / `source` resolves to a real
+     accommodation id (page mismatch is a warning).
+   - **accommodation coverage**: IEP accommodations not referenced anywhere are
+     flagged (warning — not every accommodation applies to every lesson).
+   - **lesson-question references**: each `scaffolded_questions.question_id` is a
+     real lesson question id (`original` text mismatch is a warning).
+   - **unsupported output detection**: invented phase ids / question ids are
+     errors.
+
+The tool returns a structured report so Claude can self-correct only the failing
+sections, or surface issues to the teacher:
+
+```json
+{
+  "ok": false,
+  "error_count": 1,
+  "warning_count": 1,
+  "issues": [
+    {"code": "unknown_phase_id", "severity": "error",
+     "location": "by_phase[0].phase_id", "message": "...",
+     "found": "warmup", "expected": ["intro", "during_reading", "..."]}
+  ]
+}
+```
+
+`ok` is true only when there are no `error`-severity issues; warnings are
+advisory. Claude calls this in Step 3 of `analyze_student_lesson` and fixes
+every error before rendering.
 
 ## Resource Contract (Phase 2)
 
@@ -247,7 +286,7 @@ pip install -e .
   "mcpServers": {
     "pathlight": {
       "command": "/Users/username/path_to_project/.venv/bin/python3",
-      "args": ["-m", "src.pathlight.server"]
+      "args": ["-m", "pathlight.server"]
     }
   }
 }
@@ -260,11 +299,15 @@ pip install -e .
   "mcpServers": {
     "pathlight": {
       "command": "C:\\Users\\username\\path_to_project\\.venv\\Scripts\\python.exe",
-      "args": ["-m", "src.pathlight.server"]
+      "args": ["-m", "pathlight.server"]
     }
   }
 }
 ```
+
+> Use the `python` from the virtualenv where you ran `pip install -e .`. Once
+> installed, `pathlight.server` is importable from any working directory, so no
+> `cwd` is required.
 
 Optional environment variables:
 
@@ -282,6 +325,6 @@ Notes:
 ### MCP Inspector
 
 ```bash
-npx @modelcontextprotocol/inspector python3 -m src.pathlight.server
+npx @modelcontextprotocol/inspector python3 -m pathlight.server
 ```
 

@@ -15,3 +15,8 @@
 .env*
 
 .cursor
+
+# virtual environments (rebuild with: python -m venv .venv && pip install -e .)
+.venv/
+venv/
+.python-version

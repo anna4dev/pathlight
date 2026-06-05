@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from src.pathlight.shared.serialization import models_to_json_str
-from src.pathlight.models import Lesson, Student
+from pathlight.shared.serialization import models_to_json_str
+from pathlight.models import Lesson, Student
 
 BRIEFING_SYSTEM_PROMPT = """
 ## Role
