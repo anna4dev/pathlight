@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from src.pathlight.models import Lesson, Student
+from pathlight.models import Lesson, Student
 
 
 def build_plaafp_context(student: Student) -> list[str]:

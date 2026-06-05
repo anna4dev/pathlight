@@ -1,7 +1,7 @@
 import json
 import unittest
 
-from src.pathlight.resources.gateway import list_resource_catalog, read_resource_payload
+from pathlight.resources.gateway import list_resource_catalog, read_resource_payload
 
 
 class GatewayUriParserTests(unittest.TestCase):

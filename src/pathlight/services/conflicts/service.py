@@ -4,14 +4,14 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, List
 
-from src.pathlight.shared.utils import debug_json, debug_log
+from pathlight.shared.utils import debug_json, debug_log
 from . import prompts
 from .schemas import LearningConflict
 from .validation import sanitize_learning_conflicts
 
 if TYPE_CHECKING:
-    from src.pathlight.llm import JsonLLMClient
-    from src.pathlight.models import Lesson, Student
+    from pathlight.llm import JsonLLMClient
+    from pathlight.models import Lesson, Student
 
 
 class ConflictService:

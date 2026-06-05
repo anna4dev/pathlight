@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from src.pathlight.models import Student
+from pathlight.models import Student
 
 from .paths import data_dir
 

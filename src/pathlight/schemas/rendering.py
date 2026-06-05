@@ -6,7 +6,7 @@ produces the same artifact (easy diffing, regression testing, reproducibility).
 
 from __future__ import annotations
 
-from src.pathlight.schemas.deliverable import TeacherDeliverable
+from pathlight.schemas.deliverable import TeacherDeliverable
 
 
 def _ref_suffix(ref: str | None) -> str:

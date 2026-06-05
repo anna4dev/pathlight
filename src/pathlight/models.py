@@ -126,8 +126,8 @@ class Lesson(BaseModel):
 # --- LESSON MODELS END ---
 
 # --- LLM response models (canonical definitions live in domain packages) ---
-from src.pathlight.services.briefing.schemas import PhaseBrief, PreClassBriefing
-from src.pathlight.services.conflicts.schemas import LearningConflict
-from src.pathlight.services.modifications.schemas import StudentModification
+from pathlight.services.briefing.schemas import PhaseBrief, PreClassBriefing
+from pathlight.services.conflicts.schemas import LearningConflict
+from pathlight.services.modifications.schemas import StudentModification
 
 # --- LLM response models END ---

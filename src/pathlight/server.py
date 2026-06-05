@@ -6,14 +6,14 @@ from mcp.server import NotificationOptions, Server
 from mcp.server.stdio import stdio_server
 import mcp.types as types
 
-from src.pathlight.llm.groq import GroqClient
-from src.pathlight.prompts import get_mcp_prompt_result, list_mcp_prompts
-from src.pathlight.resources.gateway import list_resource_catalog, read_resource_payload
-from src.pathlight.services.briefing.service import BriefingService
-from src.pathlight.services.conflicts.service import ConflictService
-from src.pathlight.services.modifications.service import ModificationService
-from src.pathlight.services.workflow.service import LessonAdaptationWorkflowService
-from src.pathlight.tools import ToolContext, build_tools, dispatch_tool
+from pathlight.llm.groq import GroqClient
+from pathlight.prompts import get_mcp_prompt_result, list_mcp_prompts
+from pathlight.resources.gateway import list_resource_catalog, read_resource_payload
+from pathlight.services.briefing.service import BriefingService
+from pathlight.services.conflicts.service import ConflictService
+from pathlight.services.modifications.service import ModificationService
+from pathlight.services.workflow.service import LessonAdaptationWorkflowService
+from pathlight.tools import ToolContext, build_tools, dispatch_tool
 
 server = Server("pathlight")
 
@@ -87,5 +87,10 @@ async def main():
         )
 
 
-if __name__ == "__main__":
+def run() -> None:
+    """Synchronous entry point for the ``pathlight`` console script."""
     asyncio.run(main())
+
+
+if __name__ == "__main__":
+    run()

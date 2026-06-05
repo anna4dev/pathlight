@@ -5,7 +5,7 @@ from __future__ import annotations
 import re
 import unicodedata
 
-from src.pathlight.shared.utils import debug_log
+from pathlight.shared.utils import debug_log
 from .schemas import LearningConflict
 
 CONFLICT_TYPES: frozenset[str] = frozenset(

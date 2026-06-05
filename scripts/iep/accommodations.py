@@ -3,7 +3,7 @@ import re
 from collections import defaultdict
 
 from .base import BaseIEPParser
-from src.pathlight.models import Accommodation
+from pathlight.models import Accommodation
 
 
 class AccommodationsParser(BaseIEPParser):

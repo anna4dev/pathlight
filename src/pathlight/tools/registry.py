@@ -15,21 +15,22 @@ from typing import Any
 
 import mcp.types as types
 
-from src.pathlight.resources import load_lesson, load_student
-from src.pathlight.schemas import (
+from pathlight.resources import load_lesson, load_student
+from pathlight.resources.gateway import read_resource_payload
+from pathlight.schemas import (
     TeacherDeliverable,
     render_teacher_markdown,
     validate_deliverable,
 )
-from src.pathlight.services.briefing.schemas import PreClassBriefing
-from src.pathlight.services.conflicts.schemas import LearningConflict
-from src.pathlight.services.modifications.schemas import StudentModification
-from src.pathlight.services.workflow.service import LessonAdaptationWorkflowService
-from src.pathlight.services.briefing.service import BriefingService
-from src.pathlight.services.conflicts.service import ConflictService
-from src.pathlight.services.modifications.service import ModificationService
-from src.pathlight.shared.serialization import to_text_content
-from src.pathlight.tools.schemas import (
+from pathlight.services.briefing.schemas import PreClassBriefing
+from pathlight.services.conflicts.schemas import LearningConflict
+from pathlight.services.modifications.schemas import StudentModification
+from pathlight.services.workflow.service import LessonAdaptationWorkflowService
+from pathlight.services.briefing.service import BriefingService
+from pathlight.services.conflicts.service import ConflictService
+from pathlight.services.modifications.service import ModificationService
+from pathlight.shared.serialization import to_text_content
+from pathlight.tools.schemas import (
     schema_lesson_phase_conflicts,
     schema_student_lesson,
     schema_student_lesson_modifications,
@@ -87,6 +88,22 @@ async def _handle_generate_instructional_plan(
     return to_text_content(result)
 
 
+async def _handle_get_instructional_context(
+    ctx: ToolContext,
+    args: dict[str, Any],
+) -> list[types.TextContent]:
+    # Deterministic, no LLM. Claude Desktop does not auto-read MCP *resources*
+    # in its tool loop, so this tool delivers the same scoped slice that backs
+    # `student://{id}/scopes/lesson/{lid}/phase/{pid}`, letting Claude pull the
+    # real IEP/lesson content (accommodation labels, phase, questions) before
+    # drafting. Reuses the resource reader to guarantee parity.
+    uri = (
+        f"student://{args['student_id']}/scopes/lesson/"
+        f"{args['lesson_id']}/phase/{args['phase_id']}"
+    )
+    return [types.TextContent(type="text", text=read_resource_payload(uri))]
+
+
 async def _handle_validate_teacher_artifact(
     ctx: ToolContext,
     args: dict[str, Any],
@@ -117,6 +134,7 @@ async def _handle_render_teacher_artifact(
 
 # Shape A tools are deterministic (no server-side LLM) and always registered.
 _SHAPE_A_TOOL_HANDLERS: dict[str, ToolHandler] = {
+    "get_instructional_context": _handle_get_instructional_context,
     "validate_teacher_artifact": _handle_validate_teacher_artifact,
     "render_teacher_artifact": _handle_render_teacher_artifact,
 }
@@ -139,6 +157,18 @@ def legacy_tools_enabled() -> bool:
 
 def _shape_a_tools() -> list[types.Tool]:
     return [
+        types.Tool(
+            name="get_instructional_context",
+            description=(
+                "Fetch the grounded context for one student + lesson + phase in a "
+                "single read: lesson overview, the requested phase, formative "
+                "questions (with stable question ids), and the student's "
+                "instructional core (profile, PLAAFP, goals, accommodations with "
+                "real labels and source pages). Call this FIRST and base the draft "
+                "on the returned content; do not invent accommodation text."
+            ),
+            inputSchema=schema_student_lesson_phase(),
+        ),
         types.Tool(
             name="validate_teacher_artifact",
             description=(

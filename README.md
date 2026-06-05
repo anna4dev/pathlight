@@ -37,11 +37,23 @@ tools --> output[DeterministicTeacherArtifact]
 
 The default path is the MCP prompt `analyze_student_lesson` (Claude-first).
 It instructs Claude to:
-1. read scoped MCP resources first,
+1. fetch grounded context via the `get_instructional_context` tool first,
 2. draft a structured teacher deliverable (not prose),
-3. self-validate (grounding, accommodation coverage, lesson-question references,
-   no unsupported output) before finalizing,
-4. treat output as a draft that supports edit / reject / partial regeneration.
+3. self-validate via `validate_teacher_artifact` (grounding, accommodation
+   coverage, lesson-question references, no unsupported output) before finalizing,
+4. render the canonical artifact via `render_teacher_artifact`,
+5. treat output as a draft that supports edit / reject / partial regeneration.
+
+### Why a context *tool* and not only resources
+
+MCP **resources** (`student://...`, `lesson://...`) are addressable context, but
+Claude Desktop does not auto-read them inside its autonomous tool loop — they
+must be attached manually. Claude *does* call **tools** autonomously. So the
+same scoped slice is also exposed as the deterministic `get_instructional_context`
+tool (student + lesson + phase → overview, phase, questions, and the student's
+instructional core with **real accommodation labels and source pages**). This
+prevents drafts that reference accommodation ids without reflecting their actual
+content. The resources remain available for manual attachment and inspection.
 
 ### Legacy server-side workflow (disabled by default)
 
@@ -274,7 +286,7 @@ pip install -e .
   "mcpServers": {
     "pathlight": {
       "command": "/Users/username/path_to_project/.venv/bin/python3",
-      "args": ["-m", "src.pathlight.server"]
+      "args": ["-m", "pathlight.server"]
     }
   }
 }
@@ -287,11 +299,15 @@ pip install -e .
   "mcpServers": {
     "pathlight": {
       "command": "C:\\Users\\username\\path_to_project\\.venv\\Scripts\\python.exe",
-      "args": ["-m", "src.pathlight.server"]
+      "args": ["-m", "pathlight.server"]
     }
   }
 }
 ```
+
+> Use the `python` from the virtualenv where you ran `pip install -e .`. Once
+> installed, `pathlight.server` is importable from any working directory, so no
+> `cwd` is required.
 
 Optional environment variables:
 
@@ -309,6 +325,6 @@ Notes:
 ### MCP Inspector
 
 ```bash
-npx @modelcontextprotocol/inspector python3 -m src.pathlight.server
+npx @modelcontextprotocol/inspector python3 -m pathlight.server
 ```
 

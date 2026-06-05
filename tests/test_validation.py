@@ -3,9 +3,9 @@ import copy
 import json
 import unittest
 
-from src.pathlight.resources import load_lesson, load_student
-from src.pathlight.schemas import TeacherDeliverable, validate_deliverable
-from src.pathlight.tools.registry import dispatch_tool
+from pathlight.resources import load_lesson, load_student
+from pathlight.schemas import TeacherDeliverable, validate_deliverable
+from pathlight.tools.registry import dispatch_tool
 
 STUDENT_ID = "35110GST"
 LESSON_ID = "community"
@@ -108,6 +108,29 @@ class CoverageTests(unittest.TestCase):
         uncovered = [i for i in report.issues if i.code == "uncovered_accommodations"]
         self.assertEqual(len(uncovered), 1)
         self.assertEqual(set(uncovered[0].expected), {"acc_02", "acc_03", "acc_04"})
+
+
+class InstructionalContextToolTests(unittest.TestCase):
+    def test_returns_grounded_scoped_payload(self) -> None:
+        result = asyncio.run(
+            dispatch_tool(
+                ctx=None,
+                name="get_instructional_context",
+                arguments={
+                    "student_id": STUDENT_ID,
+                    "lesson_id": LESSON_ID,
+                    "phase_id": "intro",
+                },
+            )
+        )
+        payload = json.loads(result[0].text)
+        self.assertEqual(payload["phase_id"], "intro")
+        self.assertIn("formative_checks", payload)
+        core = payload["student_instructional_core"]
+        # Real accommodation labels must be present (not just ids), so Claude can
+        # ground the draft instead of inventing generic text.
+        labels = " ".join(a["label"] for a in core["accommodations"])
+        self.assertIn("Repeat directions", labels)
 
 
 class ValidateToolDispatchTests(unittest.TestCase):

@@ -22,8 +22,8 @@ from typing import List, Optional
 
 from pydantic import BaseModel
 
-from src.pathlight.models import Lesson, Student
-from src.pathlight.schemas.deliverable import TeacherDeliverable
+from pathlight.models import Lesson, Student
+from pathlight.schemas.deliverable import TeacherDeliverable
 
 ERROR = "error"
 WARNING = "warning"

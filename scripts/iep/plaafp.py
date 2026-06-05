@@ -1,6 +1,6 @@
 from typing import Dict
 from .base import BaseIEPParser
-from src.pathlight.models import PLAAFP 
+from pathlight.models import PLAAFP 
 
 class PLAAFPParser(BaseIEPParser):
     def parse(self) -> Dict[str, PLAAFP]:

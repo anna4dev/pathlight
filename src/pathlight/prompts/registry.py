@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import mcp.types as types
 
-from src.pathlight.prompts import analyze_student_lesson
+from pathlight.prompts import analyze_student_lesson
 
 _PROMPT_MODULES = [
     analyze_student_lesson,
